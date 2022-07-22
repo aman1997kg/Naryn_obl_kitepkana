@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="kg">
+
+
+<head>
+
+    <!-- Meta -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+
+    <!-- Title -->
+    <title>{% block title %} {% endblock %}</title>
+
+    <!-- Favicon -->
+    <link href="{% static 'nok_web/images/logo_nok.png' %}" rel="icon" type="image/x-icon"/>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i%7CLato:100,100i,300,300i,400,400i,700,700i,900,900i"
+          rel="stylesheet"/>
+    <link href="{% static 'nok_web/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'path/to/font-awesome/css/font-awesome.min.css' %}">
+
+
+    <!-- Mobile Menu -->
+    <link href="{% static 'nok_web/css/mmenu.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'nok_web/css/mmenu.positioning.css' %}" rel="stylesheet" type="text/css"/>
+
+    <!-- Stylesheet -->
+    <link href="{% static 'nok_web/style.css' %}" rel="stylesheet" type="text/css"/>
+
+    <script src="{% static 'nok_web/js/html5shiv.min.js' %}"></script>
+    <script src="{% static 'nok_web/js/respond.min.js' %}"></script>
+    <script src="https://kit.fontawesome.com/3336c4353b.js" crossorigin="anonymous"></script>
+
+    {% block css %}
+    {% endblock %}
+
+
+</head>
+
+<body class="layout-v2">
+
+
+<!-- Start: Header Section -->
+<header id="header" class="navbar-wrapper">
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-default">
+                <div class="col-sm-12">
+                    <!-- Header Topbar -->
+                    <div class="header-topbar hidden-sm hidden-xs">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="topbar-info">
+                                    <a href="tel:+996352251885"><i class="fa fa-phone"></i>+996 3522 5-18-83</a>
+                                    <span>/</span>
+                                    <a href="mailto:metodnaryn@mail.ru"><i class="fa fa-envelope"></i>metodnaryn@mail.ru</a>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+
+                                <div class="topbar-links">
+                                    {% if user.is_authenticated %}
+                                    <a href="{% url 'login'"><i class="fa fa-user"></i>User: {{ user.get_username }}
+                                        |</a>
+
+                                    <a href="{% url 'logout'%}?next={{request.path}}"><i
+                                            class="fa fa-sign-out"></i>Чыгуу</a>
+                                    {% else %}
+                                    <a href="{% url 'login' %}"><i class="fa fa-lock"></i>Кирүү</a> /
+                                    <a href="{% url 'users_register' %}"><i class="fa fa-user-plus"
+                                                                            aria-hidden="true"></i>Катталуу</a>
+                                    {% endif %}
+
+
+                                     {% if user.is_authenticated %}
+                                    <span>|</span>
+                                    <div class="header-cart dropdown">
+                                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                            <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                        </a>
+
+                                        <div class="dropdown-menu cart-dropdown">
+                                            <ul>
+                                                {%  block favourits %}
+                                                {% include 'nok_web/books/user_favourits.html' %}
+                                                {% endblock %}
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="bg-light">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="navbar-header">
+                                    <div class="navbar-brand">
+                                        <h1>
+                                            <a href="{% url 'home' %}">
+                                                <img src="{% static 'nok_web/images/logo_nok.png' %}" width="50"
+                                                     height="50" alt="logo_nok"/><br>
+                                                <h5>Нарын облустук С.Орозбаков атындагы маалыматтык китепкана</h5>
+                                            </a>
+
+                                        </h1>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-8">
+                                <div class="navbar-collapse hidden-sm hidden-xs">
+                                    <ul class="nav navbar-nav">
+                                        <li class="dropdown active">
+                                            <a data-toggle="dropdown" class="dropdown-toggle disabled"
+                                               href="{% url 'home' %}">Башкы бет</a>
+
+                                        </li>
+
+                                        <li class="dropdown">
+                                            <a data-toggle="dropdown" class="dropdown-toggle disabled"
+                                               href="#">Китепкана тууралуу</a>
+                                            <ul class="dropdown-menu">
+
+                                                <li><a href="#">Китепкананын тарыхы</a></li>
+                                                <li><a href="#">Нормативдер</a></li>
+                                                <li><a href="#">Китепкананын структурасы</a></li>
+                                                <li><a href="#">Китепкананын филиалдары</a></li>
+                                                <li><a href="#">Фонд жана каталог</a></li>
+                                                <li><a href="#">Китепкана бөлүмдөрү</a></li>
+                                                <li><a href="#">Байланыш дарек</a></li>
+
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown">
+
+                                            <a data-toggle="dropdown" class="dropdown-toggle disabled"
+                                               href="#">Окурмандар үчүн</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">Кантип жазылуу керек</a></li>
+                                                <li><a href="#">Китептерди колдонуу эрежелери</a></li>
+                                                <li><a href="#">Окуу залдар</a></li>
+                                                <li><a href="#">Кызматтар</a></li>
+                                                <li><a href="{% url 'book_manager' %}">Онлайн китеп алуу</a></li>
+                                            </ul>
+
+
+                                        </li>
+
+                                        <li class="dropdown">
+                                            <a data-toggle="dropdown" class="dropdown-toggle disabled"
+                                               href="{% url 'books_list' %}">Эл-китепкана</a>
+                                            <ul class="dropdown-menu">
+
+                                                <li><a href="{% url 'books_list' %}">Китептерди онлайн окуу</a></li>
+                                                <li><a href="#">Аудио китептерди угуу</a></li>
+
+                                            </ul>
+                                        </li>
+
+
+                                        <li class="dropdown">
+                                            <a data-toggle="dropdown" class="dropdown-toggle disabled"
+                                               href="{% url 'news_list' %}">Жаңылыктар</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{% url 'news_list' %}"> Жаңылыктар</a></li>
+                                                <li><a href="{% url 'post_list_view' %}">Иш чаралар</a></li>
+
+                                            </ul>
+                                        </li>
+
+                                        <li class="dropdown">
+                                            <a data-toggle="dropdown" class="dropdown-toggle disabled"
+                                               href="#">Медиа</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">Сүрөт</a></li>
+                                                <li><a href="#">Видео</a></li>
+                                            </ul>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="mobile-menu hidden-lg hidden-md">
+                    <a href="#mobile-menu"><i class="fa fa-navicon"></i></a>
+                    <div id="mobile-menu">
+                        <ul>
+                            <li class="mobile-title">
+                                <h4>Меню</h4>
+                                <a href="#" class="close"></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'home' %}">Башкы бет</a>
+
+                            </li>
+                            <li>
+                                <a href="books-media-list-view.html">Китепкана тууралуу</a>
+                                <ul>
+                                    <li><a href="#">Китепкананын тарыхы</a></li>
+                                    <li><a href="#">Нормативдер</a></li>
+                                    <li><a href="#">Китепкананын структурасы</a></li>
+                                    <li><a href="#">Китепкананын филиалдары</a></li>
+                                    <li><a href="#">Фонд жана каталог</a></li>
+                                    <li><a href="#">Китепкана бөлүмдөрү</a></li>
+                                    <li><a href="#">Байланыш дарек</a></li>
+
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="news-events-list-view.html">Окурмандар үчүн</a>
+                                <ul>
+                                    <li><a href="#">Кантип жазылуу керек</a></li>
+                                    <li><a href="#">Китептерди колдонуу эрежелери</a></li>
+                                    <li><a href="#">Окуу залдар</a></li>
+                                    <li><a href="#">Кызматтар</a></li>
+                                    <li><a href="{% url 'book_manager' %}">Онлайн китеп алуу</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{% url 'books_list' %}">Эл-китепкана</a>
+                                <ul>
+                                    <li><a href="{% url 'books_list' %}">Китептерди онлайн окуу</a></li>
+                                    <li><a href="#">Аудио китептерди угуу</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="{% url 'news_list' %}">Жаңылыктар</a>
+                                <ul>
+                                    <li><a href="{% url 'news_list' %}"> Жаңылыктар</a></li>
+                                    <li><a href="{% url 'post_list_view' %}">Иш чаралар</a></li>
+                                </ul>
+                            </li>
+                           <li>
+                                <a href="{% url 'news_list' %}">Медиа</a>
+                                <ul>
+                                    <li><a href="{% url 'news_list' %}"> Сүрөт</a></li>
+                                    <li><a href="{% url 'post_list_view' %}">Видео</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+
+{% block content %}
+
+
+{% endblock %}
+
+
+
+
+
+<!-- Start: Footer -->
+<footer class="site-footer">
+    <div class="container">
+        <div id="footer-widgets">
+            <div class="row">
+                <div class="col-md-2 widget-container">
+                    <div class="widget widget_social_icons">
+                        <ul>
+                            <li>
+                                <a class="facebook" href="https://www.facebook.com/profile.php?id=100064532839467"
+                                   target="_blank">
+                                            <span>
+                                                <i class="fa fa-facebook-f"></i>
+                                            </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="instagramm" href="https://www.instagram.com/naryn_obl_biblioteka"
+                                   target="_blank">
+                                            <span>
+                                                <i class="fa fa-instagram"></i>
+                                            </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="linkedin" href="#" target="_blank">
+                                            <span>
+                                                <i class="fa fa-telegram"></i>
+                                            </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="youtube" href="https://www.youtube.com/channel/UCWf53TaNBBGWv78TZ556Qtg"
+                                   target="_blank">
+                                            <span>
+                                                <i class="fa fa-youtube"></i>
+                                            </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 widget-container">
+                    <div id="text-2" class="widget widget_text">
+                        <h3 class="footer-widget-title">Биздин китепкана</h3>
+                        <span class="underline left"></span>
+                        <div class="textwidget">
+                            Нарын облустук С.Орозбаков атындагы маалыматтык китепканасы Эл депутаттарынын Нарын облустук
+                            Кеңешинин XII чакрылышынын IX сессиясынын чечиминин негизинде 30 март 1993-жылы Залкар
+                            манасчы Сагынбай Орозбак уулунын ысымы берилген.
+                        </div>
+                        <address>
+                            <div class="info">
+                                <i class="fa fa-location-arrow"></i>
+                                <span>Нарын облусу, Нарын шаары Ленин көч: №33</span>
+                            </div>
+                            <div class="info">
+                                <i class="fa fa-envelope"></i>
+                                <span><a href="mailto:metodnaryn@mail.ru">metodnaryn@mail.ru</a></span>
+                            </div>
+                            <div class="info">
+                                <i class="fa fa-phone"></i>
+                                <span><a href="tel:+996352251885">+996 3522 5 18 85</a></span>
+                            </div>
+                        </address>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-6 widget-container">
+                    <div id="nav_menu-2" class="widget widget_nav_menu">
+                        <h3 class="footer-widget-title">Китепкана боюнча</h3>
+                        <span class="underline left"></span>
+                        <div class="menu-quick-links-container">
+                            <ul id="menu-quick-links" class="menu">
+                                <li><a href="#">Жаңылыктар</a></li>
+                                <li><a href="#">Тарых</a></li>
+                                <li><a href="#">Иш чаралар</a></li>
+                                <li><a href="#">Блог</a></li>
+                                <li><a href="#">Окурмандар</a></li>
+                                <li><a href="#">Акциялар</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix hidden-lg hidden-md hidden-xs tablet-margin-bottom"></div>
+                <div class="col-md-2 col-sm-6 widget-container">
+                    <div id="text-4" class="widget widget_text">
+                        <h3 class="footer-widget-title">Иштөө убактысы</h3>
+                        <span class="underline left"></span>
+                        <div class="timming-text-widget">
+
+                            <time datetime="2017-02-13">Дүйшөнбү: 9:00 - 18:00</time>
+                            <time datetime="2017-02-13">Шейшенби: 9:00 - 18:00</time>
+                            <time datetime="2017-02-13">Шаршенби: 9:00 - 18:00</time>
+                            <time datetime="2017-02-13">Жума күнү: 9:00 - 18:00</time>
+                            <time datetime="2017-02-13">Ишенби: 9:00 - 18:00</time>
+                            <time datetime="2017-02-13">Жекшенби - ДЕМ АЛЫШ</time>
+
+                            <ul>
+                                <li><a href="#">Closings</a></li>
+                                <li><a href="#">Branches</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-2 col-sm-6 widget-container">
+                    <div id="nav_menu-2" class="widget widget_nav_menu">
+                        <h3 class="footer-widget-title">Китепканадагы бөлүмдөр</h3>
+                        <span class="underline left"></span>
+                        <div class="menu-quick-links-container">
+                            <ul id="menu-quick-links" class="menu">
+
+                                <li><a href="#">Метод</a></li>
+                                <li><a href="#">Манас таануу ж/а маалымат берүү</a></li>
+                                <li><a href="#">Укуктук-экономикалык окуу залы</a></li>
+                                <li><a href="#">Тейлөө бөлүмү</a></li>
+                                <li><a href="#">Балдар бөлүмү</a></li>
+                                <li><a href="#">Абонамент </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="sub-footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-text col-md-3">
+                    <p><a target="_blank" href="https://www.templateshub.net">Templates Hub</a></p>
+                </div>
+                <div class="col-md-9 pull-right">
+                    <ul>
+                        <li><a href="index-2.html">Home</a></li>
+                        <li><a href="books-media-list-view.html">Books &amp; Media</a></li>
+                        <li><a href="news-events-list-view.html">News &amp; Events</a></li>
+                        <li><a href="#">Kids &amp; Teens</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="#">Research</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>-->
+    <!-- End: Footer-->
+
+    <!-- jQuery Latest Version 1.x -->
+    <script type="text/javascript" src="{% static 'nok_web/js/jquery-1.12.4.min.js' %}"></script>
+
+    <!-- jQuery UI -->
+    <script type="text/javascript" src="{% static 'nok_web/js/jquery-ui.min.js' %}"></script>
+
+    <!-- jQuery Easing -->
+    <script type="text/javascript" src="{% static 'nok_web/js/jquery.easing.1.3.js' %}"></script>
+
+    <!-- Bootstrap -->
+    <script type="text/javascript" src="{% static 'nok_web/js/bootstrap.min.js' %}"></script>
+
+    <!-- Mobile Menu -->
+    <script type="text/javascript" src="{% static 'nok_web/js/mmenu.min.js' %}"></script>
+
+    <!-- Harvey - State manager for media queries -->
+    <script type="text/javascript" src="{% static 'nok_web/js/harvey.min.js' %}"></script>
+
+    <!-- Waypoints - Load Elements on View -->
+    <script type="text/javascript" src="{% static 'nok_web/js/waypoints.min.js' %}"></script>
+
+    <!-- Facts Counter -->
+    <script type="text/javascript" src="{% static 'nok_web/js/facts.counter.min.js' %}"></script>
+
+    <!-- MixItUp - Category Filter -->
+    <script type="text/javascript" src="{% static 'nok_web/js/mixitup.min.js' %}"></script>
+
+    <!-- Owl Carousel -->
+    <script type="text/javascript" src="{% static 'nok_web/js/owl.carousel.min.js' %}"></script>
+
+    <!-- Accordion -->
+    <script type="text/javascript" src="{% static 'nok_web/js/accordion.min.js' %}"></script>
+
+    <!-- Responsive Tabs -->
+    <script type="text/javascript" src="{% static 'nok_web/js/responsive.tabs.min.js' %}"></script>
+
+    <!-- Responsive Table -->
+    <script type="text/javascript" src="{% static 'nok_web/js/responsive.table.min.js' %}"></script>
+
+    <!-- Masonry -->
+    <script type="text/javascript" src="{% static 'nok_web/js/masonry.min.js' %}"></script>
+
+    <!-- Carousel Swipe -->
+    <script type="text/javascript" src="{% static 'nok_web/js/carousel.swipe.min.js' %}"></script>
+
+    <!-- bxSlider -->
+    <script type="text/javascript" src="{% static 'nok_web/js/bxslider.min.js' %}"></script>
+
+    <!-- Custom Scripts -->
+    <script type="text/javascript" src="{% static 'nok_web/js/main.js' %}"></script>
+
+    {% block js %}
+    {% endblock %}
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,18 @@
+{%  block favourits %}
+
+<li class="clearfix">
+    <div class="item-info">
+        <div>
+            <a href="{% url  'user_favourite_books_list' %}" style="font-size:12px;"><i class="fa fa-book" aria-hidden="true" style="font-size:14px;color:green"></i>Тандалган китептер</a>
+        </div>
+        <br>
+         <div>
+            <a href="{% url  'user_favourites' %}" style="font-size:12px;"><i class="fa fa-heart" style="font-size:14px;color:red"></i> Сиз жактырган китеп</a>
+        </div>
+
+
+    </div>
+</li>
+
+
+{% endblock %}

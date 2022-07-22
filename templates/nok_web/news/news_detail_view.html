@@ -1,0 +1,185 @@
+{% extends 'nok_web/base.html' %}
+{% load static %}
+{% block title %}Жаңылыктар | {{ news_detail.cat }} | {{ news_detail.title }}{% endblock %}
+
+
+
+
+{% block content %}
+        <!-- Start: Page Banner -->
+        <section class="page-banner news-listing-banner services-banner">
+            <div class="container">
+                <div class="banner-header">
+                    <h2>Жаңылыктар | {{ news_detail.cat }}</h2>
+                    <span class="underline center"></span>
+                    <p class="lead">Китепкана тармагындагы жаңылыктар менен кабардар болуп туруңуздар</p>
+                </div>
+                <div class="breadcrumb">
+                    <ul>
+                        <li><a href="{% url 'home' %}">Башкы бет</a></li>
+                        <li><a href="{% url 'news_list' %}">Жаңылыктар</a></li>
+                        <li>{{ news_detail.cat }}</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Start: Products Section -->
+        <div id="content" class="site-content">
+            <div id="primary" class="content-area">
+                <main id="main" class="site-main">
+                    <div class="main-news-list">
+                        <div class="container">
+                            <br><br>
+
+                            <!-- Start: Search Section -->
+
+                            <!-- End: Search Section -->
+
+
+                            <div class="row">
+                                <div class="col-md-9 col-md-push-3">
+                                    <div class="news-list-detail">
+                                        <div class="news-list-box">
+                                            <div class="single-news-list">
+                                                <div class="social-content">
+
+
+                                                    <div class="social-share">
+                                                        <ul>
+                                                            <li><a href="#."><i class="fa fa-comment"></i> -</a></li>
+                                                            <li><a href="#."><i class="fa fa-thumbs-o-up"></i> -</a>
+                                                            </li>
+                                                            <li><a href="#."><i class="fa fa-eye"></i> {{news_detail.count_views}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+
+                                                    {% block news_social_media %}
+                                                    {% include 'nok_web/news/news_social_media.html' %}
+                                                    {% endblock %}
+
+
+                                                </div>
+                                                <figure>
+                                                    <img src="{{ news_detail.img.url }}" alt="News_detail_view">
+                                                </figure>
+                                                <div class="content-block">
+                                                    <div class="member-info">
+                                                        <div class="content_meta_category">
+                                                            <span class="arrow-right"></span>
+                                                            <a href="{{ news_detail.cat.get_absolute_url }}" rel="category tag">{{ news_detail.cat }}</a>
+                                                        </div>
+                                                        <ul class="news-event-info">
+                                                            <li>
+                                                                <a href="#" target="_blank">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                    {{ news_detail.date_pub|date:'d.m.y' }}
+                                                                </a>
+                                                            </li>
+<!--                                                            <li>-->
+<!--                                                                <a href="#" target="_blank">-->
+<!--                                                                    <i class="fa fa-clock-o"></i>-->
+<!--                                                                    10:15 AM - 10:15 PM -->
+<!--                                                                </a>-->
+<!--                                                            </li>-->
+                                                            <li>
+                                                                <a href="#" target="_blank">
+                                                                    <i class="fa fa-map-marker"></i>
+                                                                   {{ news_detail.location }}
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <h2>{{ news_detail.title }}</h2>
+                                                        <p> {{ news_detail.text|linebreaks }} </p>
+                                                        <br><br>
+
+
+                                                        {% if news_detail.tags.exists %}
+                                                        <div class="col-xs-12 col-sm-12 entry-tags">
+                                                            <strong><i class="fa fa-tags" aria-hidden="true"></i> Теги:
+                                                            </strong>
+                                                            <span>
+                                                            {% for tags in news_detail.tags.all %}
+                                                            <a href="{{ tags.get_absolute_url }}"> {{ tags }}</a> ,
+                                                             {% endfor %}
+                                                            </span>
+                                                        </div>
+                                                        {% endif %}
+
+
+
+                                                        <br><br>
+                                                    </div>
+
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        {% load news_tags %}
+                                        {% popular_news as popular_news %}
+
+
+                                        {% if popular_news %}
+                                        <div class="related-event text-center">
+                                            <h2>Популярдуу жаңылыктар</h2>
+                                            <span class="underline center">Сайтка күн сайын жаңылыктар жүктөлүп турат</span>
+                                            <p class="lead"></p>
+                                            <div class="owl-carousel-event">
+
+                                                {% for news in popular_news %}
+                                                <div class="single-related-event">
+                                                    <figure>
+                                                        {% if news.img %}
+                                                        <a href="{{ news.get_absolute_url }}"><img src="{{ news.img.url }}" alt="Related event"></a>
+                                                        {% endif %}
+                                                        <figcaption>
+                                                            <header>
+                                                                <ul class="news-event-info">
+                                                                    <li>
+                                                                        <a href="#" target="_blank">
+                                                                            <i class="fa fa-calendar"></i>
+                                                                            {{ news.date_pub|date:'d.m.y' }}
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#" target="_blank">
+                                                                            <i class="fa fa-map-marker"></i>
+                                                                            {{ news.location|truncatewords:3 }}
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                                <h4><a href="{{ news.get_absolute_url }}">{{ news.title|truncatewords:8 }}</a></h4>
+                                                            </header>
+                                                            <p>{{ news.description|truncatewords:10 }}</p>
+                                                        </figcaption>
+                                                    </figure> 
+                                                </div>
+                                                {% endfor %}
+
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                                {% block sidebar %}
+                                {% include 'nok_web/news/side_bar_news.html' %}
+                                {% endblock %}
+
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+
+{% endblock %}

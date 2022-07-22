@@ -1,0 +1,419 @@
+{% extends 'nok_web/base.html' %}
+{% load static %}
+
+{% block title %}Нарын облустук С.Орозбаков атындагы маалыматтык китепканасы {% endblock %}
+
+{% block content %}
+
+<!-- Start: Slider Section -->
+<div data-ride="carousel" class="carousel slide" id="home-v1-header-carousel">
+    <!-- Carousel slides -->
+    <div class="carousel-inner">
+        <div class="item active">
+            <figure>
+                <img alt="Home Slide" src="{% static 'nok_web/images/nok_img.jpg' %}"/>
+            </figure>
+            <div class="container">
+                <div class="carousel-caption"><br><br><br>
+                    <h3>Нарын облустук С.Орозбаков атындагы маалыматтык китепканага<br> кош келдиңиздер!</h3>
+                    <h3>Биздин сайттан акыркы маалыматтардан жана жаңылыктардан кабардар болуңуздар</h3>
+                    <br><br><br>
+                    <div class="slide-buttons hidden-sm hidden-xs">
+                        <a href="{% url 'news_list' %}" class="btn btn-primary">Кененирээк</a>
+                        <!--                                <a href="#" class="btn btn-default">Purchase</a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if post %}
+        {% for slide in post %}
+        <div class="item">
+            <figure>
+                {% if slide.img %}
+                <img alt="Home Slide" src="{{ slide.img.url }}"/>
+                {% endif %}
+            </figure>
+            <div class="container">
+                <div class="carousel-caption">
+                    <h3>{{ slide.title|truncatewords:8 }}</h3>
+                    <p>{{ slide.description|truncatewords:10 }} </p>
+                    <!--                            <p>{{ slide.text }}</p>-->
+                    <div class="slide-buttons hidden-sm hidden-xs">
+                        <a href="{{ slide.get_absolute_url }}" class="btn btn-primary">Кененирээк</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+
+    </div>
+    <!-- Indicators
+    <ol class="carousel-indicators">
+        <li data-target="#home-v1-header-carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#home-v1-header-carousel" data-slide-to="1"></li>
+        <li data-target="#home-v1-header-carousel" data-slide-to="2"></li>
+        <li data-target="#home-v1-header-carousel" data-slide-to="3"></li>
+    </ol>-->
+</div>
+<!-- End: Slider Section -->
+
+<!-- Start: Search Section -->
+<section class="search-filters">
+    <div class="container"><br>
+
+        {% block books_search %}
+
+        {% include 'nok_web/books/search_books.html' %}
+
+        {% endblock %}
+
+    </div>
+</section>
+<!-- End: Search Section -->
+
+
+<!-- Start: Features -->
+<section class="features">
+    <div class="container">
+        <ul>
+            <li class="yellow-hover">
+                <div class="feature-box">
+                    <i class="yellow"></i>
+                    <h3>Китептер</h3>
+                    <p>Биздин китепканада 100 000 ашуун китеп бар келип окуп кетиңиздер</p>
+                    <a class="yellow" href="#">
+                        Китептердин тизмесин көрүү <i class="fa fa-long-arrow-right"></i>
+                    </a>
+                </div>
+            </li>
+            <li class="light-green-hover">
+                <div class="feature-box">
+                    <i class="light-green"></i>
+                    <h3>Электрондук китепкана</h3>
+                    <p>Укуктук экономикалык окуу залында 100дөн ашуун электрондук китептер бар.</p>
+                    <a class="light-green" href="{% url 'books_list' %}">
+                        Э-китептерди онлайн окуу<i class="fa fa-long-arrow-right"></i>
+                    </a>
+                </div>
+            </li>
+            <li class="blue-hover">
+                <div class="feature-box">
+                    <i class="blue"></i>
+                    <h3>Видеолор</h3>
+                    <p>Кызыктуу фактылар жана пайдалуу видеолорду көрүңүздөр</p>
+                    <a class="blue" href="#">
+                        Видео көрүү <i class="fa fa-long-arrow-right"></i>
+                    </a>
+                </div>
+            </li>
+            <li class="red-hover">
+                <div class="feature-box">
+                    <i class="red"></i>
+                    <h3>Китеп дүкөнү</h3>
+                    <p>Онлайн дүкөндө жаңы китептерди үйдө олтуруп сатып алыңыз</p>
+                    <a class="red" href="#">
+                        Дүкөнгө кирүү <i class="fa fa-long-arrow-right"></i>
+                    </a>
+                </div>
+            </li>
+            <li class="violet-hover">
+                <div class="feature-box">
+                    <i class="violet"></i>
+                    <h3>Audio</h3>
+                    <p>Биз менен бирге аудио макалаларды угуңуз</p>
+                    <a class="violet" href="#">
+                        Онлайн угуу <i class="fa fa-long-arrow-right"></i>
+                    </a>
+                </div>
+            </li>
+            <li class="green-hover">
+                <div class="feature-box">
+                    <i class="green"></i>
+                    <h3>eAudio</h3>
+                    <p>Эгерде китеп окуганга убактыңыз жок болуп жатса анда audio китептерди угуп ырахат алыңыз</p>
+                    <a class="green" href="#">
+                        Онлайн угуу <i class="fa fa-long-arrow-right"></i>
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<!-- End: Features -->
+
+<!-- Start: Category Filter -->
+<section class="category-filter section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="center-content">
+                <h2 class="section-title">Жаңы чыгарылыштар</h2>
+                <span class="underline center"></span>
+                <p class="lead">Күн сайын китепкана жаңы жана табылгыс китептер менен толукталып турат.</p>
+            </div>
+
+            <div class="filter-buttons">
+                <!--<div class="filter btn" data-filter="all">Баардыгы</div>-->
+
+                {% for cat in book_category %}
+                <div class="filter btn" data-filter=".{{ cat.slug }}">{{ cat.book_cat }}</div>
+                {% endfor %}
+                <!--                        <div class="filter btn" data-filter=".kids-teens">Балдар үчүн китептер</div>-->
+                <!--                        <div class="filter btn" data-filter=".video">Видео</div>-->
+                <!--                        <div class="filter btn" data-filter=".audio">Аудио</div>-->
+                <!--                        <div class="filter btn" data-filter=".books">Китептер</div>-->
+                <!--                        <div class="filter btn" data-filter=".magazines">Магазин</div>-->
+            </div>
+
+            <div id="category-filter">
+
+                <ul class="category-list">
+                    {% for book_list in books %}
+
+                    <li class="category-item {{ book_list.book_category.slug }}">
+
+
+                        <figure>
+                            {% if book_list.img_book %}
+                            <img src="{{ book_list.img_book.url }}" alt="Book Releaase"/>
+                            {% endif %}
+                            <figcaption class="bg-light-green">
+                                <div class="diamond">
+                                    <i class="ebook"></i>
+                                </div>
+                                <div class="info-block">
+                                    <h4>{{ book_list.title }}</h4>
+                                    <span class="author"><strong>Автор: </strong> {{ book_list.author.all|join:"  " }}</span>
+                                    <span class="author"><strong>ISBN:</strong> {{ book_list.isbn }}</span>
+                                    <span class="author"><strong>Рейтинг: </strong> {{ book_list.get_avg_rating }}  ☆</span>
+                                    <p>{{ book_list.summary }}</p>
+
+
+                                    {% if user.is_authenticated %}
+                                    <a href="{{ book_list.get_absolute_url }}">Онлайн окуу<i
+                                            class="fa fa-long-arrow-right"></i></a>
+                                    <ol>
+
+                                        <li>
+                                            {% if request.user in book_list.favourite.all %}
+                                            <a href="{% url 'favourite' slug=book_list.slug %}" data-toggle="blog-tags"
+                                               data-placement="top"
+                                               title="" data-original-title="Заметка">
+                                                <i class="fa fa-bookmark" aria-hidden="true" > {{ book_list.favourite.all.count }}</i>
+                                                <!--<i class="fa fa-bookmark" aria-hidden="true"></i>-->
+                                            </a>
+                                            {% else %}
+                                            <a href="{% url 'favourite' slug=book_list.slug %}" data-toggle="blog-tags"
+                                               data-placement="top"
+                                               title="" data-original-title="Заметка">
+                                                <i class="fa fa-bookmark-o" aria-hidden="true"> {{ book_list.favourite.all.count }}</i>
+                                            </a>
+                                            {% endif %}
+                                        </li>
+
+                                        <li>
+                                            {% if request.user in book_list.like.all %}
+                                            <a href="{% url 'like' book_list.slug %}" data-toggle="blog-tags"
+                                               data-placement="top" title="Like">
+                                                <i class="fa fa-heart"> {{ book_list.like.all.count }}</i>
+                                                {% else %}
+                                                <a href="{% url 'like' book_list.slug %}" data-toggle="blog-tags"
+                                                   data-placement="top" title="Like">
+                                                    <i class="fa fa-heart-o"> {{ book_list.like.all.count }}</i>
+                                                </a>
+                                                {% endif %}
+                                        </li>
+
+                                        <li>
+                                            <a href="#" target="_blank" data-toggle="blog-tags"
+                                               data-placement="top" title="Mail"><i
+                                                    class="fa fa-envelope-o"></i>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            {% if book_list.book_file %}
+                                            <a href="{{ book_list.book_file.url }}#toolbar=0" target="_blank"
+                                               data-toggle="blog-tags"
+                                               data-placement="top" title="Окуу">
+                                                <i class="fa fa-book" aria-hidden="true"></i>
+                                            </a>
+                                            {% endif %}
+                                        </li>
+
+
+                                    </ol>
+                                    {% else %}
+
+                                    <p style="color:red;">Китепти онлайн окуш үчүн катталыңыз!</p>
+                                    <a class="btn btn-dark-gray" href="{% url 'users_register' %}">Катталуу</a>
+
+
+                                    {% endif %}
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </li>
+                    {% endfor %}
+
+
+
+                </ul>
+
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Start: Category Filter -->
+
+<!-- Start: Welcome Section -->
+<section class="welcome-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="welcome-wrap">
+                    <div class="welcome-text">
+                        <h2 class="section-title">Сагынбай Орозбаков атындагы маалыматтык китепканага кош
+                            келиңиздер!</h2>
+                        <span class="underline left"></span>
+                        <p></p>
+                        <a class="btn btn-primary" href="#">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="welcome-image">
+                    <img src="{% static 'nok_web/images/wellcome-image.jpg' %}" class="algin-right" alt=""/>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End: Welcome Section -->
+
+<!-- Start: Facts Counter -->
+<div class="layout-v2-counter">
+    <div class="facts-counter">
+        <div class="container">
+            <div class="row">
+                <ul>
+                    <li class="color-light-green">
+                        <div class="fact-item">
+                            <div class="fact-icon">
+                                <i class="ebook"></i>
+                            </div>
+                            <span>Э-китептер<strong class="fact-counter">101</strong></span>
+                        </div>
+                    </li>
+                    <li class="color-green">
+                        <div class="fact-item">
+                            <div class="fact-icon">
+                                <i class="eaudio"></i>
+                            </div>
+                            <span>Аудио китеп<strong class="fact-counter">50</strong></span>
+                        </div>
+                    </li>
+                    <li class="color-red">
+                        <div class="fact-item">
+                            <div class="fact-icon">
+                                <i class="magazine"></i>
+                            </div>
+                            <span>Китеп дүкөн<strong class="fact-counter">200</strong></span>
+                        </div>
+                    </li>
+                    <li class="color-blue">
+                        <div class="fact-item">
+                            <div class="fact-icon">
+                                <i class="videos"></i>
+                            </div>
+                            <span>Видео баяндама<strong class="fact-counter">1000</strong></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: Facts Counter -->
+
+<!-- Start: News & Event -->
+<section class="news-events section-padding">
+    <div class="container">
+        <div class="center-content">
+            <h2 class="section-title c-light">Жаңылыктар</h2>
+            <span class="underline center"></span>
+            <p class="lead c-light">Акыркы жаңылыктар</p>
+        </div>
+        <div class="news-events-list">
+            {% for new in news %}
+            <div class="single-news-event">
+                <figure>
+                    {% if new.img %}
+                    <img src="{{ new.img.url }}" alt="News & Event"/>
+                    {% endif %}
+                </figure>
+                <div class="content-block">
+                    <div class="member-info">
+                        <div class="content_meta_category">
+                            <span class="arrow-right"></span>
+                            <a href="{{ new.cat.get_absolute_url }}" rel="category tag">{{ new.cat }}</a>
+                        </div>
+                        <ul class="news-event-info">
+                            <li>
+                                <a href="#" target="_blank">
+                                    <i class="fa fa-calendar"></i>
+                                    {{ new.date_pub|date:'d.m.y' }}
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="#" target="_blank">
+                                    <i class="fa fa-map-marker"></i>
+                                    {{ new.location }}
+                                </a>
+                            </li>
+                        </ul>
+                        <h3><a href=".html#">{{ new.title|truncatewords:8 }}</a></h3>
+                        <p>{{ new.description|truncatewords:8 }}</p>
+                        <a class="btn btn-primary" href="{{ new.get_absolute_url }}">Кененирээк</a>
+                    </div> <br>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            {% endfor %}
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</section>
+<!-- End: News & Event -->
+
+
+
+<!-- Start: Newsletter -->
+<section class="newsletter section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="center-content">
+                    <h2 class="section-title">Бизге почта аркылуу жазылыңыздар</h2>
+                    <span class="underline center"></span>
+                    <p class="lead">Сизге биринчилерден болуп жүктөлгөн маалыматтар почат аркылуу барып турат</p>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" placeholder="Почтаңызды жазыңыз!" id="newsletter" name="newsletter"
+                           type="email">
+                    <input class="form-control" value="жазылуу" type="submit">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End: Newsletter -->
+
+{% endblock %}

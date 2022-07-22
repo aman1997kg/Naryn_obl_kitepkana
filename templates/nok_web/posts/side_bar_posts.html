@@ -1,0 +1,87 @@
+{% load posts_tags %}
+{% all_posts_cat as posts_cat %}
+{% last_posts as last_post %}
+{% posts_tags as posts_tags %}
+
+
+
+
+{% block sidebar_posts %}
+
+
+<div class="col-md-3 col-md-pull-9">
+                                    <aside id="secondary" class="sidebar widget-area">
+                                        <div class="widget widget_search">
+                                            <h4 class="widget-title" data-control>Издөө</h4>
+                                            <form method="get" action="{% url 'search_posts' %}" class="form-horizontal search-form">
+                                                <input class="form-control" id="inputEmail" placeholder="Иш чараларды издөө" value="" name="search_posts" type="text">
+                                                <button type="submit"><i class="fa fa-search"></i></button>
+                                            </form>
+                                        </div>
+                                        <div class="widget widget_related_search">
+                                            <h4 class="widget-title" data-control>Категория</h4>
+                                            <div class="widget_categories">
+                                                <ul>
+                                                    {% for cat in posts_cat %}
+                                                    <li><a href="{{ cat.get_absolute_url }}">{{ cat.name }} <span>()</span></a></li>
+                                                    {% endfor %}
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="widget widget_recent_entries">
+                                            <h4 class="widget-title" data-control>Акыркы иш чара</h4>
+                                            <ul>
+
+                                                {% for post in last_post %}
+                                                <li>
+                                                    <figure>
+                                                        {% if post.img %}<a href="{{ post.get_absolute_url }}">
+                                                        <img src="{{ post.img.url }}" alt="product"  /></a>
+                                                        {% endif %}
+                                                    </figure>
+                                                    <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:5 }}</a>
+                                                    <span><i class="fa fa-calendar"></i> &nbsp; {{ post.date_pub|date:'m.d.y' }}</span>
+                                                    <span><i class="fa fa-map-marker"></i> &nbsp; {{ post.location }}</span>
+                                                    <div class="clearfix"></div>
+                                                </li>
+                                                {% endfor %}
+
+
+                                            </ul>
+                                        </div>
+                                        <div class="widget widget_archives">
+                                            <h4 class="widget-title" data-control>News Archives</h4>
+                                            <form action="#" method="get">
+                                                <div class="form-group">
+                                                    <select name="month" id="month" class="form-control">
+                                                        <option>Select Month</option>
+                                                        <option>Month 01</option>
+                                                        <option>Month 02</option>
+                                                        <option>Month 03</option>
+                                                        <option>Month 04</option>
+                                                        <option>Month 05</option>
+                                                    </select>
+                                                </div>
+                                            </form>
+                                        </div>
+
+
+                                        {% if posts_tags %}
+                                        <div class="widget widget_tag_cloud">
+                                            <h4 class="widget-title" data-control>Теги</h4>
+                                            <ul>
+                                                {% for tags in posts_tags %}
+                                                <li><a href="{{ tags.get_absolute_url }}">{{ tags }}</a></li>
+                                                {% endfor %}
+
+
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+
+                                    </aside>
+                                </div>
+
+
+{% endblock %}

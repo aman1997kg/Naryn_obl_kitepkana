@@ -1,0 +1,38 @@
+<div class="booksmedia-fullwidth">
+    <div class="container">
+        <h2 class="section-title text-center">Сунушталган китептер</h2>
+        <span class="underline center"></span>
+        <p class="lead text-center">Азыркы учурда сайтта көп окулуп жаткан китептер</p>
+        <ul class="popular-items-detail-v2">
+
+
+            {% for book in popular_book %}
+            <li>
+                <div class="book-list-icon light-green-icon"></div>
+                <figure>
+                    {% if book.img_book %}
+                    <img src="{{ book.img_book.url }}" alt="eBook">
+                    {% endif %}
+                    <figcaption>
+                        <header>
+                            <h4><a href="{{ book.get_absolute_url }}">{{ book.title|truncatewords:10 }}</a></h4>
+                            <p><strong>Автор: </strong> {{ book.author.all|join:", " }}</p>
+                            <p><strong>ISBN:</strong> {{book.isbn}}</p>
+                        </header>
+                        <p>{{book.summary|linebreaks|truncatewords:10}}</p>
+
+
+                        {% block actions %}
+                        {% include 'nok_web/books/books_actions_optional_links.html' %}
+                        {% endblock %}
+
+
+                    </figcaption>
+                </figure>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+

@@ -1,0 +1,61 @@
+{% block css %}
+ <script src="https://kit.fontawesome.com/3336c4353b.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block actions %}
+
+<div class="actions">
+    <ul>
+        <li>
+            {% if request.user in book.favourite.all %}
+            <a href="{% url 'favourite' slug=book.slug %}" data-toggle="blog-tags"
+               data-placement="top"
+               title="" data-original-title="Заметка">
+                <i class="fa fa-bookmark" aria-hidden="true" style="font-size:18px;color:orange"> </i><span> {{ book.favourite.all.count }}</span>
+                <!--<i class="fa fa-bookmark" aria-hidden="true"></i>-->
+            </a>
+            {% else %}
+            <a href="{% url 'favourite' slug=book.slug %}" data-toggle="blog-tags"
+               data-placement="top"
+               title="" data-original-title="Заметка">
+                <i class="fa fa-bookmark-o" aria-hidden="true" > </i><span> {{ book.favourite.all.count }}</span>
+                <!--<i class="fa fa-bookmark" aria-hidden="true"></i>-->
+            </a>
+            {% endif %}
+        </li>
+
+        <li>
+            {% if request.user in book.like.all %}
+            <a href="{% url 'like' book.slug %}" data-toggle="blog-tags"
+               data-placement="top" title="Like">
+                <i class="fa fa-heart" style="font-size:18px;color:red"> </i> <span> {{ book.like.all.count }}</span></a>
+                {% else %}
+                <a href="{% url 'like' book.slug %}" data-toggle="blog-tags"
+                   data-placement="top" title="Like">
+                    <i class="fa fa-heart-o"> </i><span> {{ book.like.all.count }}</span>
+                </a>
+        </li>
+        {% endif %}
+
+
+        <li>
+            <a href="#" target="_blank" data-toggle="blog-tags"
+               data-placement="top" title="Mail"><i
+                    class="fa fa-envelope-o" style="font-size:18px;color:blue"></i>
+            </a>
+        </li>
+
+        <li>
+            {% if book.book_file %}
+            <a href="{{ book.book_file.url }}#toolbar=0" target="_blank" data-toggle="blog-tags"
+               data-placement="top" title="Окуу">
+                <i class="fa fa-book" aria-hidden="true" style="font-size:18px;color:green"></i>
+            </a>
+            {% endif %}
+        </li>
+
+
+    </ul>
+</div>
+
+{% endblock %}

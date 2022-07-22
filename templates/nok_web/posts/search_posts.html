@@ -1,0 +1,47 @@
+{% load posts_tags %}
+{% all_posts_cat as posts_cat %}
+
+
+
+{% block posts_search %}
+
+<div class="filter-box">
+            <br>
+            <form action="{% url 'search_posts' %}" method="get">
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Сөз жазып издеңиз" id="search" name="search_posts"
+                               type="search">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <select name="genre" id="genre" class="form-control">
+                            <option>Жанр боюнча издөө</option>
+                            {% for g in genre %}
+                            <option>{{ g.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <select name="category" id="category" class="form-control">
+                            <option>Баардык категориялар</option>
+                            {% for category in posts_cat %}
+                            <option>{{ category }}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-6">
+                    <div class="form-group">
+                        <input class="form-control" type="submit" value="Издөө">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% load books_tags %}
+{% all_books_cats as books_cats %}
+{% genre_books as genre %}
+
+
+{% block books_search %}
+
+<div class="filter-box">
+            <!--<h3>Китепканадан эмне издеп жатасыз?</h3>-->
+            <form action="{% url 'search_books' %}" method="get">
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Китепти ISBN номери же сөзү менен издеңиз" id="search" name="search_books"
+                               type="search">
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <select name="genre" id="genre" class="form-control">
+                            <option>Жанр боюнча издөө</option>
+                            {% for g in genre %}
+                            <option>{{ g.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="form-group">
+                        <select name="category" id="category" class="form-control">
+                            <option>Баардык категориялар</option>
+                            {% for category in books_cats %}
+                            <option>{{ category }}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-6">
+                    <div class="form-group">
+                        <input class="form-control" type="submit" value="Издөө">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% if status_comment_public %}
+<div class="alert alert-success">
+    {{ status_comment_public }}
+    {% endif %}
+
+    {% if status_comment_delete%}
+    <div class="alert alert-danger">
+        {{ status_comment_delete }}
+        {% endif %}
+
+        <div class="left-arrow"></div>
+        <div class="reply">
+            <a href="#" class="comment-reply-link">
+                <i class="fa fa-reply"></i> жооп
+            </a>
+        </div>
+        <div class="comment-metadata">
+            <a href="#"></a>
+            <time datetime="2016-01-17">
+                <b> Убактысы: {{ comment.create_date }} </b>
+            </time>
+
+        </div>
+        <div class="comment-content">
+            <p>{{comment.text}}.
+            </p>
+        </div>

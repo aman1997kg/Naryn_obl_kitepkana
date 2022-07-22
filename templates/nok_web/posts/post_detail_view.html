@@ -1,0 +1,190 @@
+{% extends 'nok_web/base.html' %}
+{% load static %}
+{% block title %}Иш чаралар > {{ title }} :: {{ post_detail.title }} {% endblock %}
+
+
+{% block content %}
+        <!-- Start: Page Banner -->
+        <section class="page-banner news-listing-banner services-banner">
+            <div class="container">
+                <div class="banner-header">
+                    <h2>{{ post_detail.title|truncatewords:3 }} </h2>
+                    <span class="underline center"></span>
+                    <p class="lead"></p>
+                </div>
+                <div class="breadcrumb">
+                    <ul>
+                        <li><a href="{% url 'home' }}">Башкы бет</a></li>
+                        <li><a href="#">{{ title }}</a></li>
+                        <li>{{ post_detail.title|truncatewords:2 }}</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- End: Page Banner -->
+
+        <!-- Start: Products Section -->
+        <div id="content" class="site-content">
+            <div id="primary" class="content-area">
+                <main id="main" class="site-main">
+                    <div class="main-news-list">
+                        <div class="container">
+                            <!-- Start: Search Section -->
+                            <section class="search-filters">
+
+
+                                {% block posts_search %}
+                                {% include 'nok_web/posts/search_posts.html' %}
+                                {% endblock %}
+
+                                <div class="clear"></div>
+                            </section>
+
+
+
+                            <!-- End: Search Section -->
+                            <div class="row">
+                                <div class="col-md-9 col-md-push-3">
+                                    <div class="news-list-detail">
+                                        <div class="news-list-box">
+                                            <div class="single-news-list">
+                                                <div class="social-content">
+                                                    <div class="social-share">
+                                                        <ul>
+                                                            <li><a href="#."><i class="fa fa-comment"></i> 37</a></li>
+                                                            <li><a href="#."><i class="fa fa-thumbs-o-up"></i> 110</a></li>
+                                                            <li><a href="#."><i class="fa fa-eye"></i>  {{ post_detail.count_views}}</a></li>
+                                                        </ul>
+                                                    </div>
+
+                                                    {% block news_social_media %}
+                                                    {% include 'nok_web/news/news_social_media.html' %}
+                                                    {% endblock %}
+
+                                                </div>
+                                                <figure>
+                                                    <img src="{{ post_detail.img.url }}" alt="Post_detail_view">
+                                                </figure>
+                                                <div class="content-block">
+                                                    <div class="member-info">
+                                                        <div class="content_meta_category">
+                                                            <span class="arrow-right"></span>
+                                                            <a href="{{ post_detail.post_cat.get_absolute_url }}" rel="category tag">{{ post_detail.post_cat }}</a>
+                                                        </div>
+                                                        <ul class="news-event-info">
+                                                            <li>
+                                                                <a href="#" target="_blank">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                    {{ post_detail.date_pub|date:'d.m.y' }}
+                                                                </a>
+                                                            </li>
+<!--                                                            <li>-->
+<!--                                                                <a href="#" target="_blank">-->
+<!--                                                                    <i class="fa fa-clock-o"></i>-->
+<!--                                                                    10:15 AM - 10:15 PM -->
+<!--                                                                </a>-->
+<!--                                                            </li>-->
+                                                            <li>
+                                                                <a href="#" target="_blank">
+                                                                    <i class="fa fa-map-marker"></i>
+                                                                    {{ post_detail.location }}
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                        <h4>{{ post_detail.title }}</h4>
+                                                        <p> {{ post_detail.text|linebreaks }} </p>
+
+                                                        <br><br>
+
+
+
+                                                        {% if post_detail.tags.exists %}
+                                                        <div class="col-xs-12 col-sm-12 entry-tags">
+                                                            <strong><i class="fa fa-tags" aria-hidden="true"></i> Теги:  </strong>
+                                                            <span>
+                                                            {% for tags in post_detail.tags.all %}
+                                                            <a href="{{ tags.get_absolute_url }}">   {{ tags }}</a> ,
+                                                             {% endfor %}
+                                                            </span>
+                                                        </div>
+                                                        {% endif %}
+
+
+
+                                                        <br><br>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        </div>
+
+
+                                        {% load posts_tags %}
+                                        {% popular_posts as popular_posts %}
+
+                                        {% if popular_posts %}
+                                        <div class="related-event text-center">
+                                            <h2>Популярдуу макалалар</h2>
+                                            <span class="underline center"></span>
+                                            <p class="lead">Азыркы учурда сайтта көп окулуп жаткан посттор</p>
+                                            <div class="owl-carousel-event">
+
+
+                                                {% for post in popular_posts %}
+                                                <div class="single-related-event">
+                                                    <figure>
+                                                        {% if post.img %}
+                                                        <a href="{{ post.get_absolute_url }}"><img src="{{ post.img.url }}" alt="Related event"></a>
+                                                        {% endif %}
+                                                        <figcaption>
+                                                            <header>
+                                                                <ul class="news-event-info">
+                                                                    <li>
+                                                                        <a href="#" target="_blank">
+                                                                            <i class="fa fa-calendar"></i>
+                                                                            {{ post.date_pub|date:'d.m.y' }}
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#" target="_blank">
+                                                                            <i class="fa fa-map-marker"></i>
+                                                                            {{ post.location|truncatewords:3 }}
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                                <h4><a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:5 }}</a></h4>
+                                                            </header>
+                                                            <p>{{ post.description|linebreaks|truncatewords:10 }}</p>
+                                                        </figcaption>
+                                                    </figure> 
+                                                </div>
+                                                {% endfor %}
+
+
+                                            </div>
+                                        </div>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+
+                                {% block sidebar_posts %}
+
+                                {% include 'nok_web/posts/side_bar_posts.html' %}
+
+                                {% endblock %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <!-- End: Products Section -->
+
+
+{% endblock %}

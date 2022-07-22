@@ -1,0 +1,85 @@
+{% load static %}
+{% load news_tags %}
+{% all_news_tags as all_news_tags %}
+{% all_news_cat as news_cats %}
+{% last_news as last_news %}
+
+
+
+{% block side_bar_news %}
+
+    <div class="col-md-3 col-md-pull-9">
+                            <aside id="secondary" class="sidebar widget-area">
+                                <hr><br>
+                                <div class="widget widget_search">
+                                    <form method="get" action="/search_news/" class="form-horizontal search-form">
+                                        <input class="form-control" id="inputEmail" placeholder="Жаңылык издөө"
+                                               value="" name="search_news" type="text">
+                                        <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    </form>
+                                </div>
+
+                                <div class="widget widget_related_search">
+                                    <h4 class="widget-title" data-control>Категория</h4>
+                                    <div class="widget_categories">
+                                        <ul>
+                                            {% for news_cat in news_cats %}
+                                            <li><a href="{{ news_cat.get_absolute_url }}">{{ news_cat.name }}<span>()</span></a></li>
+                                            {% endfor %}
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="widget widget_recent_entries">
+                                    <h4 class="widget-title" data-control>Акыркы жаңылыктар</h4>
+                                    <ul>
+                                        {% for news in last_news %}
+                                        <li>
+                                            <figure><a href="{{ news.get_absolute_url }}">
+                                                <img src="{{ news.img.url }}" alt="news-img"/></a>
+                                            </figure>
+                                            <a href="{{ news.get_absolute_url }}">{{ news.title|truncatewords:8}}</a>
+                                            <span><i class="fa fa-calendar"></i> &nbsp; {{ news.date_pub|date:'d.m.y' }}</span>
+                                            <span><i class="fa fa-map-marker"></i> &nbsp; {{ news.location }}</span>
+                                            <div class="clearfix"></div>
+                                        </li>
+                                        {% endfor %}
+
+
+                                    </ul>
+                                </div>
+                                <div class="widget widget_archives">
+                                    <h4 class="widget-title" data-control>News Archives</h4>
+                                    <form action="http://libraria.demo.presstigers.com/index.html" method="get">
+                                        <div class="form-group">
+                                            <select name="month" id="month" class="form-control">
+                                                <option>Select Month</option>
+                                                <option>Month 01</option>
+                                                <option>Month 02</option>
+                                                <option>Month 03</option>
+                                                <option>Month 04</option>
+                                                <option>Month 05</option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                                {% if all_news_tags %}
+                                <div class="widget widget_tag_cloud">
+                                    <h4 class="widget-title" data-control>Теги</h4>
+                                    <ul>
+                                        {% for tags in all_news_tags %}
+                                        <li><a href="{{ tags.get_absolute_url }}">{{ tags }}</a></li>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+                                {% endif %}
+
+                            </aside>
+                        </div>
+
+{% endblock %}
