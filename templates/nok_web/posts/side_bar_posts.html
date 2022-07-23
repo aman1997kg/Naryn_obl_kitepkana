@@ -70,13 +70,13 @@
                                         {% if posts_tags %}
                                         <div class="widget widget_tag_cloud">
                                             <h4 class="widget-title" data-control>Теги</h4>
-                                            <ul>
-                                                {% for tags in posts_tags %}
-                                                <li><a href="{{ tags.get_absolute_url }}">{{ tags }}</a></li>
-                                                {% endfor %}
-
-
-                                            </ul>
+                                            <div class="tags_scroll">
+                                                <ul>
+                                                    {% for tags in posts_tags %}
+                                                    <li><a href="{{ tags.get_absolute_url }}">#{{ tags }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
                                         </div>
                                         {% endif %}
 

@@ -103,7 +103,7 @@
                                                             <strong><i class="fa fa-tags" aria-hidden="true"></i> Теги:  </strong>
                                                             <span>
                                                             {% for tags in post_detail.tags.all %}
-                                                            <a href="{{ tags.get_absolute_url }}">   {{ tags }}</a> ,
+                                                            <a href="{{ tags.get_absolute_url }}">   #{{ tags }}</a> ,
                                                              {% endfor %}
                                                             </span>
                                                         </div>

@@ -103,7 +103,7 @@
                                                             </strong>
                                                             <span>
                                                             {% for tags in news_detail.tags.all %}
-                                                            <a href="{{ tags.get_absolute_url }}"> {{ tags }}</a> ,
+                                                            <a href="{{ tags.get_absolute_url }}"> #{{ tags }}</a> ,
                                                              {% endfor %}
                                                             </span>
                                                         </div>

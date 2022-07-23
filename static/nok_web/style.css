@@ -19306,3 +19306,18 @@ a:focus {
 #home-v1-header-carousel figure img {
     min-width: 100%;
 }
+
+
+
+
+
+
+.tags_scroll{
+style="width: 100%;
+height: 200px;
+/* background-color: coral; */
+overflow: visible;
+overflow: hidden;
+overflow: scroll;
+overflow: auto;"
+}
