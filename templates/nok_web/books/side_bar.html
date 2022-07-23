@@ -151,11 +151,13 @@
                                         {% if tags %}
                                         <div class="widget widget_tag_cloud">
                                             <h4 class="widget-title" data-control="">Китептердин теги</h4>
-                                            <ul>
-                                                {% for tag in tags%}
-                                                <li><a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a></li>
-                                                {% endfor %}
-                                            </ul>
+                                            <div class="tags_scroll">
+                                                <ul>
+                                                    {% for tag in tags%}
+                                                    <li><a href="{{ tag.get_absolute_url }}">#{{ tag.name }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
                                         </div>
                                         {% endif %}
 

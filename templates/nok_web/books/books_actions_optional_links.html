@@ -45,14 +45,24 @@
             </a>
         </li>
 
+
         <li>
             {% if book.book_file %}
-            <a href="{{ book.book_file.url }}#toolbar=0" target="_blank" data-toggle="blog-tags"
-               data-placement="top" title="Окуу">
+            <a href="https://docs.google.com/viewer?a&embedded=true&url=https://naryn-obl-kitepkana.herokuapp.com{{ book.book_file.url }}#toolbar=0/view?ths=true&chrome=false"
+               target="_blank"
+               data-toggle="blog-tags" data-placement="top" title=""
+               data-original-title="Онлайн окуу">
+                <i class="fa fa-book" aria-hidden="true" style="font-size:18px;color:green"></i>
+            </a>
+            {% else %}
+            <a href="https://drive.google.com/file/d/{{ book.google_docs_file }}/view#toolbar=0" target="_blank"
+               data-toggle="blog-tags" data-placement="top" title=""
+               data-original-title="Онлайн окуу">
                 <i class="fa fa-book" aria-hidden="true" style="font-size:18px;color:green"></i>
             </a>
             {% endif %}
         </li>
+
 
 
     </ul>

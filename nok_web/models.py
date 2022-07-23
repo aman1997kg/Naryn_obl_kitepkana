@@ -254,6 +254,7 @@ class Books(models.Model):
     author = models.ManyToManyField(Author, verbose_name='Китептин автору', related_name='author_book')
     img_book = models.ImageField(upload_to='book_image/%Y/%m/%d/', blank=True)
     book_file = models.FileField(upload_to='book_file/', blank=True)
+    google_docs_file = models.CharField(max_length=200, verbose_name='Гугл документ же китеп', blank=True, null=True)
     isbn = models.CharField(max_length=30, db_index=True, unique=True, blank=True)
     edition = models.CharField(max_length=100, blank=True, null=True, verbose_name='китептин чыгарылган жылы')
     publisher = models.ForeignKey(Publisher, on_delete=models.PROTECT, blank=True, null=True, verbose_name='Китепти чыгарган басмакана')

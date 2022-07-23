@@ -126,11 +126,19 @@
 
                                             <li>
                                                 {% if book_detail.book_file %}
-                                                <a href="{{ book_detail.book_file.url }}#toolbar=0" target="_blank"
+                                                <a href="https://docs.google.com/viewer?a&embedded=true&url=https://naryn-obl-kitepkana.herokuapp.com{{ book_detail.book_file.url }}#toolbar=0/view?ths=true&chrome=false" target="_blank"
                                                    data-toggle="blog-tags" data-placement="top" title=""
                                                    data-original-title="Онлайн окуу">
                                                     <i class="fa fa-book" aria-hidden="true" style="font-size:18px;color:green"></i>
                                                 </a>
+                                                {% else %}
+                                                <a href="https://drive.google.com/file/d/{{ book_detail.google_docs_file }}/view#toolbar=0" target="_blank"
+                                                   data-toggle="blog-tags" data-placement="top" title=""
+                                                   data-original-title="Онлайн окуу">
+                                                    <i class="fa fa-book" aria-hidden="true" style="font-size:18px;color:green"></i>
+                                                </a>
+
+
                                                 {% endif %}
                                             </li><br>
 
@@ -173,8 +181,11 @@
 
                                     <a href="#." class="btn btn-dark-gray">Китепти брондоо</a>
                                     <a href="#." class="btn btn-dark-gray">Китепти сатып алуу</a>
+
                                     {% if book_detail.book_file %}
-                                    <a href="{{ book_detail.book_file.url }}#toolbar=0" class="btn btn-dark-gray">Онлайн окуу</a>
+                                    <a href="https://docs.google.com/viewer?a&embedded=true&url=https://naryn-obl-kitepkana.herokuapp.com{{ book_detail.book_file.url }}#toolbar=0/view?ths=true&chrome=false"  class="btn btn-dark-gray" >Онлайн окуу</a>
+                                    {% else %}
+                                    <a href="https://docs.google.com/viewer?srcid={{ book_detail.google_docs_file }}&pid=explorer&efh=false&a=v&chrome=false&embedded=true"  class="btn btn-dark-gray" >Онлайн окуу</a>
                                     {% endif %}
 
                                 </div>
@@ -200,10 +211,17 @@
                         {% endif %}
 
 
+                        <br><br><br><br>
+
+                        {% if book_detail.book_file %}
+                        <iframe src="https://docs.google.com/viewer?a&embedded=true&url=https://naryn-obl-kitepkana.herokuapp.com{{ book_detail.book_file.url }}#toolbar=0/view?ths=true&chrome=false" style="width: 100%; height: 500px; border: none;"></iframe>
+                        {% else %}
+                        <iframe src="https://docs.google.com/viewer?srcid=17ACntMnLHvfeIJZpgU7QnunKk1HteGTN&pid=explorer&efh=false&a=v&chrome=false&embedded=true" style="width: 100%; height: 500px; border: none;"></iframe>
+                        {% endif %}
+
+
+
                         <br><br>
-
-
-                        <iframe src="https://docs.google.com/viewer?embedded=true&url=https://naryn-obl-kitepkana.herokuapp.com{{ book_detail.book_file.url }}#toolbar=0/view?ths=true/view?usp=sharing" style="width: 100%; height: 500px; border: none;"></iframe>
 
 
                     </div>
@@ -370,5 +388,4 @@ rating.addEventListener("change", function (e) {
 
 
     {% endblock %}
-
-    {% endblock %}
+{% endblock %}
