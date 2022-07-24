@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.db.models import Q, Avg
+from django.core.validators import FileExtensionValidator
 
 from nok_web.middleware import get_current_user
 
@@ -50,6 +51,9 @@ class Post(models.Model):
     title = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, unique=True)
     img = models.ImageField(upload_to='post_images/%Y/%m/%d/')
+    post_video_file = models.FileField(upload_to='video_posts/%Y/%m/%d/', blank=True, null=True, verbose_name='Иш чаранын видеосу', validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
+    youtube_links = models.CharField(max_length=200, verbose_name='Иш чаранын ютуб каналдагы шилтемеси', blank=True, null=True)
+    facebook_links = models.CharField(max_length=200, verbose_name='Иш чаранын фейсбук каналдагы шилтемеси', blank=True, null=True)
     description = models.CharField(max_length=500, blank=True, db_index=True)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, verbose_name='Локация')
     count_views = models.IntegerField(default=0)

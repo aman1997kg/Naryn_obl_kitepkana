@@ -7,6 +7,9 @@ urlpatterns = [
 
     path('', HomeListView.as_view(), name='home'),
 
+    path('stream/<int:pk>/', get_streaming_video, name='stream'),
+    path('<int:pk>/', get_video, name='video'),
+
     path('search_books/', search_books, name='search_books'),
     path('search_news/', search_news, name='search_news'),
     path('search_posts/', search_posts, name='search_posts'),
@@ -40,7 +43,7 @@ urlpatterns = [
     path('books_list/tags/<slug:slug>/', BookbyTagsListView.as_view(), name='tag_books'),
 
 
-    # -------------------------book-m   anager----------------------
+    # -------------------------book-manager----------------------
 
     path("book_manager/", index, name="book_manager"),
     path("add_book/", add_book, name="add_book"),
