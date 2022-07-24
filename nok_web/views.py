@@ -51,6 +51,32 @@ class HomeBookCategoryListView(generic.ListView):
         return Book_category.objects.filter(slug=self.kwargs['slug'])
 
 
+#---------------------video-palayer----------------------
+from django.http import StreamingHttpResponse
+from django.shortcuts import render, get_object_or_404
+from .services import open_file
+
+
+def get_video(request, pk: int):
+    _video = get_object_or_404(Post, id=pk)
+    return render(request, "nok_web/posts/post_detail_view.html", {"video": _video})
+
+
+def get_streaming_video(request, pk: int):
+    file, status_code, content_length, content_range = open_file(request, pk)
+    response = StreamingHttpResponse(file, status=status_code, content_type='video/mp4')
+
+    response['Accept-Ranges'] = 'bytes'
+    response['Content-Length'] = str(content_length)
+    response['Cache-Control'] = 'no-cache'
+    response['Content-Range'] = content_range
+    return response
+
+
+
+
+
+
 
 #---------------------------News------------------------------------
 
@@ -114,7 +140,7 @@ class NewsByCategoryListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(NewsByCategoryListView, self).get_context_data(**kwargs)
-        context['title'] = 'Жаңылыктар категориясы'
+        context['title'] = 'Категориясы:  ' + str(News_cat.objects.get(slug=self.kwargs['slug']))
         context['news'] = News.objects.filter(cat__slug=self.kwargs['slug'])
         context['news_count'] = News.objects.all().count()
 
@@ -132,7 +158,7 @@ class NewsByTagsListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(NewsByTagsListView, self).get_context_data(**kwargs)
-        context['title'] = 'Жаңылыктар теги'
+        context['title'] = 'Жаңылыктын теги: ' + str(Tags_News.objects.get(slug=self.kwargs['slug']))
         context['news'] = News.objects.filter(tags__slug=self.kwargs['slug'])
         context['news_count'] = News.objects.all().count()
 
@@ -294,7 +320,7 @@ class BookbyCategoryListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(BookbyCategoryListView, self).get_context_data(**kwargs)
-        context['title'] = 'Китептердин каталогу' + str(Books.objects.filter(book_category__slug=self.kwargs['slug']))
+        context['title'] = 'Китептердин каталогу:' + str(Books.objects.get(book_category__slug=self.kwargs['slug']))
         context['books'] = Books.objects.filter(book_category__slug=self.kwargs['slug'])
         context['books_count'] = Books.objects.all().count()
         context['author_count'] = Author.objects.all().count()
@@ -492,7 +518,7 @@ class PostByTagsListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(PostByTagsListView, self).get_context_data(**kwargs)
-        context['title'] = 'Тег:  ' + str(Tags_Posts.objects.get(slug=self.kwargs['slug']))
+        context['title'] = 'Иш чаралардын теги:  ' + str(Tags_Posts.objects.get(slug=self.kwargs['slug']))
         context['post_list'] = Post.objects.filter(tags__slug=self.kwargs['slug'])
         context['post_count'] = Post.objects.all().count()
 

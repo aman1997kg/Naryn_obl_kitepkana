@@ -14701,7 +14701,7 @@ a:focus {
 }
 .news-list-box .single-news-list figure img {
   width: 100%;
-   height: 500px;
+   height: 50%;
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   .news-list-box .single-news-list figure {
@@ -19303,4 +19303,37 @@ overflow: visible;
 overflow: hidden;
 overflow: scroll;
 overflow: auto;
+}
+
+
+.embedded-video-16-9 {
+  width:  100%;
+  height: 60.625vw; /* 90*9/16 */
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+@media (min-width: 893px) {
+  .embedded-video-16-9 {
+    width: 100%;
+    height: 25.3125vw; /* 45*9/16 */
+    margin-left: 0.5vw;
+    margin-right: 0vw
+  }
+}
+
+
+.fb-wrapper {
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    position: relative;
+    height: 0;
+}
+
+.fb-wrapper iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
 }

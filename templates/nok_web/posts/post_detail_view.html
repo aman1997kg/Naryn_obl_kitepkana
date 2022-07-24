@@ -3,6 +3,7 @@
 {% block title %}Иш чаралар > {{ title }} :: {{ post_detail.title }} {% endblock %}
 
 
+
 {% block content %}
         <!-- Start: Page Banner -->
         <section class="page-banner news-listing-banner services-banner">
@@ -62,9 +63,11 @@
                                                     {% endblock %}
 
                                                 </div>
+                                                {% if post_detail.img %}
                                                 <figure>
-                                                    <img src="{{ post_detail.img.url }}" alt="Post_detail_view">
+                                                    <img src="{{ post_detail.img.url }}" alt="Post_detail_view" >
                                                 </figure>
+                                                {% endif %}
                                                 <div class="content-block">
                                                     <div class="member-info">
                                                         <div class="content_meta_category">
@@ -94,11 +97,48 @@
                                                         <h4>{{ post_detail.title }}</h4>
                                                         <p> {{ post_detail.text|linebreaks }} </p>
 
+
+
+                                                        {% if post_detail.post_video_file %}
+                                                            <video
+                                                                    id="my-video"
+                                                                    width="100%" height="50%"
+
+                                                                    controls
+                                                                    preload="auto">
+                                                                <source src="{% url 'stream' post_detail.id %}"
+                                                                        type="video/mp4"/>
+                                                                <source src="{% url 'stream' post_detail.id %}"
+                                                                        type="video/webm"/>
+                                                            </video>
+                                                        {% endif %}
+
+
+                                                        {% if post_detail.youtube_links %}
                                                         <br><br>
+                                                        <div>
+                                                            <iframe
+                                                                    class="embedded-video-16-9"
+                                                                    src="https://www.youtube.com/embed/{{ post_detail.youtube_links }}?controls=0"
+                                                                    frameborder="0" width="560" height="315"
+                                                                    allowfullscreen=""
+                                                            ></iframe>
+                                                        </div>
+                                                        {% endif %}
+
+
+                                                        {% if post_detail.facebook_links  %}
+                                                        <br><br>
+                                                        <div class="fb-wrapper">
+                                                            <iframe src="https://www.facebook.com/plugins/video.php?height=476&href={{ post_detail.facebook_links }}&show_text=false&width=476&t=0" width="476" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+                                                        </div>
+                                                        {% endif %}
+
 
 
 
                                                         {% if post_detail.tags.exists %}
+                                                        <br><br>
                                                         <div class="col-xs-12 col-sm-12 entry-tags">
                                                             <strong><i class="fa fa-tags" aria-hidden="true"></i> Теги:  </strong>
                                                             <span>
@@ -172,9 +212,7 @@
 
 
                                 {% block sidebar_posts %}
-
                                 {% include 'nok_web/posts/side_bar_posts.html' %}
-
                                 {% endblock %}
 
 
@@ -186,5 +224,8 @@
         </div>
         <!-- End: Products Section -->
 
+{% block js %}
+
+{% endblock %}
 
 {% endblock %}

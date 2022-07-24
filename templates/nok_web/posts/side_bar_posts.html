@@ -37,7 +37,7 @@
                                                 <li>
                                                     <figure>
                                                         {% if post.img %}<a href="{{ post.get_absolute_url }}">
-                                                        <img src="{{ post.img.url }}" alt="product"  /></a>
+                                                        <img src="{{ post.img.url }}"  alt="product"  /></a>
                                                         {% endif %}
                                                     </figure>
                                                     <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:5 }}</a>
