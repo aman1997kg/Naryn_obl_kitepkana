@@ -139,11 +139,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 WHITENOISE_AUTOREFRESH = True
-CSRF_TRUSTED_ORIGINS = ['https://naryn-obl-kitepkana.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = ['https://naryn-obl-kitepkana.herokuapp.com', 'https://naryn-obl-biblioteka.herokuapp.com',]
 
 
 CORS_ORIGIN_WHITELIST = (
   'https://naryn-obl-kitepkana.herokuapp.com',
+  'https://naryn-obl-biblioteka.herokuapp.com',
 )
 
 
