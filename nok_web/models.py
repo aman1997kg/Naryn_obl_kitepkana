@@ -116,7 +116,7 @@ class News(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, verbose_name='Локация')
     count_views = models.IntegerField(default=0)
     text = models.TextField(blank=True)
-    post_video_file = models.FileField(upload_to='video_news/%Y/%m/%d/', blank=True, null=True,
+    news_video_file = models.FileField(upload_to='video_news/%Y/%m/%d/', blank=True, null=True,
                                        verbose_name='Иш чаранын видеосу',
                                        validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
     youtube_links = models.CharField(max_length=200, verbose_name='Иш чаранын ютуб каналдагы шилтемеси', blank=True,

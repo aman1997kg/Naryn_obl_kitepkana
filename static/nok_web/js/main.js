@@ -432,3 +432,18 @@ $( window ).load(function() {
     });
 });
 
+$(document).ready(function(){
+    $("#example1").tiksluscarouse({width:640,height:480});
+    });
+
+$(document).ready(function(){
+		$("#carousel1").tiksluscarousel({progressBar:false,width:640,height:480,nav:'thumbnails',type:"slide"});
+		});
+
+$(document).ready(function(){
+		$("#example2").tiksluscarouse({width:640,height:480,customAnimationClassIn:'bounceIn',customAnimationClassOut:'bounceOut',type:'custom'});
+		});
+
+$(document).ready(function(){
+		$("#carousel2").tiksluscarousel({width:640,height:480,customAnimationClassIn:'bounceIn',customAnimationClassOut:'bounceOut',type:'custom'});
+		});
