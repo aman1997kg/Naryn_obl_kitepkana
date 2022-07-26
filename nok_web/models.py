@@ -116,10 +116,18 @@ class News(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, verbose_name='Локация')
     count_views = models.IntegerField(default=0)
     text = models.TextField(blank=True)
+    news_video_file = models.FileField(upload_to='video_news/%Y/%m/%d/', blank=True, null=True,
+                                       verbose_name='Иш чаранын видеосу',
+                                       validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
+    youtube_links = models.CharField(max_length=200, verbose_name='Иш чаранын ютуб каналдагы шилтемеси', blank=True,
+                                     null=True)
+    facebook_links = models.CharField(max_length=200, verbose_name='Иш чаранын фейсбук каналдагы шилтемеси', blank=True,
+                                      null=True)
     date_pub = models.DateField(auto_now_add=True)
     tags = models.ManyToManyField('Tags_News', related_name='tags_news', verbose_name='Теги новостей')
     like = models.ManyToManyField(User, blank=True, related_name='likes_news')
     favourite = models.ManyToManyField(User, blank=True, related_name='favourite_news')
+    author_news = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='автор публикации', blank=True, null=True)
     active = models.BooleanField(verbose_name='Опубликовать', default=False)
 
     class Meta:
@@ -130,6 +138,22 @@ class News(models.Model):
 
     def get_absolute_url(self):
         return reverse('news_detail', kwargs={'slug': self.slug})
+
+
+def get_image_filename(instance, filename):
+    title = instance.news.title
+    slug = slugify(title)
+    return "news_images/%s-%s" % (slug, filename)
+
+
+class Images_News(models.Model):
+    news = models.ForeignKey(News, default=None, on_delete=models.CASCADE, related_name='news_slides_img')
+    title = models.CharField(max_length=200, verbose_name='Слайдга кыскача тема', blank=True, null=True)
+    description = models.CharField(max_length=500, blank=True, null=True)
+    image = models.ImageField(upload_to=get_image_filename,
+                              verbose_name='Image')
+
+
 
 class Comments_news(models.Model):
     news = models.ForeignKey(News, on_delete = models.CASCADE, verbose_name='Жаңылык', blank = True, null = True, related_name='comments_news' )

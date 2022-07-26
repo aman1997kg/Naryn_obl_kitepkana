@@ -30,8 +30,33 @@ def ranged(
 
 def open_file(request, video_pk: int) -> tuple:
     _video = get_object_or_404(Post, pk=video_pk)
-
     path = Path(_video.post_video_file.path)
+
+    file = path.open('rb')
+    file_size = path.stat().st_size
+
+    content_length = file_size
+    status_code = 200
+    content_range = request.headers.get('range')
+
+    if content_range is not None:
+        content_ranges = content_range.strip().lower().split('=')[-1]
+        range_start, range_end, *_ = map(str.strip, (content_ranges + '-').split('-'))
+        range_start = max(0, int(range_start)) if range_start else 0
+        range_end = min(file_size - 1, int(range_end)) if range_end else file_size - 1
+        content_length = (range_end - range_start) + 1
+        file = ranged(file, start=range_start, end=range_end + 1)
+        status_code = 206
+        content_range = f'bytes {range_start}-{range_end}/{file_size}'
+
+    return file, status_code, content_length, content_range
+
+
+
+
+def open_file_news(request, video_pk: int) -> tuple:
+    _video = get_object_or_404(News, pk=video_pk)
+    path = Path(_video.news_video_file.path)
 
     file = path.open('rb')
     file_size = path.stat().st_size

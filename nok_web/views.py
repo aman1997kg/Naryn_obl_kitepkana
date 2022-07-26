@@ -54,18 +54,23 @@ class HomeBookCategoryListView(generic.ListView):
 #---------------------video-palayer----------------------
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, get_object_or_404
-from .services import open_file
-
-
-def get_video(request, pk: int):
-    _video = get_object_or_404(Post, id=pk)
-    return render(request, "nok_web/posts/post_detail_view.html", {"video": _video})
-
+from .services import *
 
 def get_streaming_video(request, pk: int):
     file, status_code, content_length, content_range = open_file(request, pk)
     response = StreamingHttpResponse(file, status=status_code, content_type='video/mp4')
 
+    response['Accept-Ranges'] = 'bytes'
+    response['Content-Length'] = str(content_length)
+    response['Cache-Control'] = 'no-cache'
+    response['Content-Range'] = content_range
+    return response
+
+
+
+def get_news_video(request, pk: int):
+    file, status_code, content_length, content_range = open_file_news(request, pk)
+    response = StreamingHttpResponse(file, status=status_code, content_type='video/mp4')
     response['Accept-Ranges'] = 'bytes'
     response['Content-Length'] = str(content_length)
     response['Cache-Control'] = 'no-cache'
@@ -95,6 +100,49 @@ def search_news(request):
         page_obj = paginator.get_page(page_number)
     title = 'Сайт боюнча издөө'
     return render(request, 'nok_web/news/search_news_list.html', {'page_obj': page_obj, 'title': title})
+
+from django.shortcuts import render
+from django.forms import modelformset_factory
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from .forms import *
+
+@login_required
+def post(request):
+
+    Image_NewsForm = modelformset_factory(Images_News,
+                                        form=Image_NewsForm, extra=3)
+    #'extra' means the number of photos that you can upload   ^
+    if request.method == 'POST':
+
+        newsForm = NewsForm(request.POST)
+        formset = Image_NewsForm(request.POST, request.FILES,
+                               queryset=Images_News.objects.none())
+
+
+        if NewsForm.is_valid() and formset.is_valid():
+            news_form = NewsForm.save(commit=False)
+            news_form.author_news.user = request.user
+            news_form.save()
+
+            for form in formset.cleaned_data:
+                #this helps to not crash if the user
+                #do not upload all the photos
+                if form:
+                    image = form['image']
+                    photo = Images_News(news=news_form, image=image)
+                    photo.save()
+            messages.success(request,
+                             "Yeeew, check it out on the home page!")
+            return HttpResponseRedirect("/")
+        else:
+            print(newsForm.errors, formset.errors)
+    else:
+        newsForm = NewsForm()
+        formset = Image_NewsFormSet(queryset=Images_News.objects.none())
+    return render(request, 'nok_web/news/news_detail_view.html',
+                  {'newsForm': newsForm, 'formset': formset})
 
 
 class NewsListView(generic.ListView):

@@ -8,7 +8,8 @@ urlpatterns = [
     path('', HomeListView.as_view(), name='home'),
 
     path('stream/<int:pk>/', get_streaming_video, name='stream'),
-    path('<int:pk>/', get_video, name='video'),
+    path('news_video/<int:pk>/', get_news_video, name='news_video'),
+
 
     path('search_books/', search_books, name='search_books'),
     path('search_news/', search_news, name='search_news'),

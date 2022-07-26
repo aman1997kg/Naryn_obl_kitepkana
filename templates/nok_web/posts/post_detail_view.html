@@ -4,14 +4,20 @@
 
 
 
+
+
 {% block content %}
         <!-- Start: Page Banner -->
         <section class="page-banner news-listing-banner services-banner">
             <div class="container">
                 <div class="banner-header">
-                    <h2>{{ post_detail.title|truncatewords:3 }} </h2>
+                    <br>
+                    <h2>{{ title }} </h2>
+                    <br>
                     <span class="underline center"></span>
-                    <p class="lead"></p>
+                    <br>
+                    <p class="lead">{{ post_detail.title }}</p>
+                    <br>
                 </div>
                 <div class="breadcrumb">
                     <ul>
@@ -95,15 +101,21 @@
                                                             </li>
                                                         </ul>
                                                         <h4>{{ post_detail.title }}</h4>
+
+
+
+
+
+
                                                         <p> {{ post_detail.text|linebreaks }} </p>
 
 
 
                                                         {% if post_detail.post_video_file %}
+                                                        <div class="video-wrap">
                                                             <video
                                                                     id="my-video"
-                                                                    width="100%" height="50%"
-
+                                                                    width="100%" style="max-height: 400px;"
                                                                     controls
                                                                     preload="auto">
                                                                 <source src="{% url 'stream' post_detail.id %}"
@@ -111,18 +123,21 @@
                                                                 <source src="{% url 'stream' post_detail.id %}"
                                                                         type="video/webm"/>
                                                             </video>
+                                                        </div>
                                                         {% endif %}
 
 
                                                         {% if post_detail.youtube_links %}
                                                         <br><br>
-                                                        <div>
-                                                            <iframe
-                                                                    class="embedded-video-16-9"
-                                                                    src="https://www.youtube.com/embed/{{ post_detail.youtube_links }}?controls=0"
-                                                                    frameborder="0" width="560" height="315"
-                                                                    allowfullscreen=""
-                                                            ></iframe>
+                                                        <div class="video-wrap">
+                                                            <div class="video-container">
+                                                                <iframe
+                                                                        class="embedded-video-16-9"
+                                                                        src="https://www.youtube.com/embed/{{ post_detail.youtube_links }}?controls=0"
+                                                                        frameborder="0" width="560" height="315"
+                                                                        allowfullscreen=""
+                                                                ></iframe>
+                                                            </div>
                                                         </div>
                                                         {% endif %}
 
@@ -130,7 +145,7 @@
                                                         {% if post_detail.facebook_links  %}
                                                         <br><br>
                                                         <div class="fb-wrapper">
-                                                            <iframe src="https://www.facebook.com/plugins/video.php?height=476&href={{ post_detail.facebook_links }}&show_text=false&width=476&t=0" width="476" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+                                                            <iframe src="https://www.facebook.com/plugins/video.php?height=314&href={{ post_detail.facebook_links }}&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture;" allowFullScreen="true"></iframe>
                                                         </div>
                                                         {% endif %}
 
@@ -224,8 +239,6 @@
         </div>
         <!-- End: Products Section -->
 
-{% block js %}
 
-{% endblock %}
 
 {% endblock %}

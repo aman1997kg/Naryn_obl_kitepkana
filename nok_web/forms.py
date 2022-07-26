@@ -129,3 +129,20 @@ class RatingForm(forms.ModelForm):
     class Meta:
         model = Rating
         fields = ("star",)
+
+
+#------------------------News-multi-img-form------------------------------
+class NewsForm(forms.ModelForm):
+    title = forms.CharField(max_length=128)
+    text = forms.Textarea()
+
+    class Meta:
+        model = News
+        fields = ('title', 'text', )
+
+
+class Image_NewsForm(forms.ModelForm):
+    image = forms.ImageField(label='Image', widget=forms.FileInput(attrs={'multiple': 'multiple'}))
+    class Meta:
+        model = Images_News
+        fields = ('image', )

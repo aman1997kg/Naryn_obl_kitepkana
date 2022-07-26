@@ -2,6 +2,8 @@
 {% load static %}
 {% block title %}Жаңылыктар | {{ news_detail.cat }} | {{ news_detail.title }}{% endblock %}
 
+{%
+
 
 
 
@@ -9,10 +11,10 @@
         <!-- Start: Page Banner -->
         <section class="page-banner news-listing-banner services-banner">
             <div class="container">
-                <div class="banner-header">
-                    <h2>Жаңылыктар | {{ news_detail.cat }}</h2>
+                <div class="banner-header"><br>
+                    <h2>Жаңылыктар | {{ news_detail.cat }}</h2><br>
                     <span class="underline center"></span>
-                    <p class="lead">Китепкана тармагындагы жаңылыктар менен кабардар болуп туруңуздар</p>
+                    <p class="lead">{{ news_detail.title }}</p>
                 </div>
                 <div class="breadcrumb">
                     <ul>
@@ -93,8 +95,70 @@
                                                             </li>
                                                         </ul>
                                                         <h2>{{ news_detail.title }}</h2>
+
+
+                                                         <div class="cd-slider">
+                                                            <ul>
+                                                                {% for slider in news_detail.news_slides_img.all %}
+                                                              <li>
+                                                                <div class="image" style="background-image:url({{ slider.image.url }});"></div>
+                                                                <div class="content">
+                                                                  <h2>{{ slider.title }}</h2>
+                                                                    <p>{{ slider.description }}</p>
+                                                                  <a href="#">Көрүү</a>
+                                                                </div>
+                                                              </li>
+                                                                {% endfor %}
+
+                                                            </ul>
+                                                          </div> <!--/.cd-slider-->
+
+
                                                         <p> {{ news_detail.text|linebreaks }} </p>
+
+
+                                                        {% if news_detail.news_video_file %}
+                                                        <div class="video-wrap">
+                                                            <video
+                                                                    id="my-video"
+                                                                    width="100%" height="50%"
+                                                                    style="max-height: 400px;"
+                                                                    controls
+                                                                    preload="auto">
+                                                                <source src="{% url 'news_video' news_detail.id %}"
+                                                                        type="video/mp4"/>
+                                                                <source src="{% url 'news_video' news_detail.id %}"
+                                                                        type="video/webm"/>
+                                                            </video>
+                                                        </div>
+                                                        {% endif %}
+
+
+                                                        {% if news_detail.youtube_links %}
                                                         <br><br>
+                                                        <div class="video-wrap">
+                                                            <div class="video-container">
+                                                                <iframe
+                                                                        src="https://www.youtube.com/embed/{{ news_detail.youtube_links }}?controls=0"
+                                                                        allowfullscreen=""
+                                                                ></iframe>
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
+
+
+                                                        {% if news_detail.facebook_links  %}
+                                                        <br><br>
+                                                        <div class="fb-wrapper">
+                                                            <iframe src="https://www.facebook.com/plugins/video.php?height=314&href={{ news_detail.facebook_links }}&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture;" allowFullScreen="true"></iframe>
+                                                        </div>
+                                                        {% endif %}
+
+
+
+                                                        <br><br>
+
+
 
 
                                                         {% if news_detail.tags.exists %}
@@ -180,6 +244,8 @@
                 </main>
             </div>
         </div>
+
+
 
 
 {% endblock %}
