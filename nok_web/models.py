@@ -148,8 +148,8 @@ def get_image_filename(instance, filename):
 
 class Images_News(models.Model):
     news = models.ForeignKey(News, default=None, on_delete=models.CASCADE, related_name='news_slides_img')
-    title = models.CharField(max_length=200, verbose_name='Слайдга кыскача тема', blank=True, null=True)
-    description = models.CharField(max_length=500, blank=True, null=True)
+    title = models.CharField(max_length=200, default=' ', verbose_name='Слайдга кыскача тема', blank=True, null=True)
+    description = models.CharField(max_length=500, default=' ', blank=True, null=True)
     image = models.ImageField(upload_to=get_image_filename,
                               verbose_name='Image')
 

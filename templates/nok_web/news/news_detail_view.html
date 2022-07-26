@@ -2,7 +2,11 @@
 {% load static %}
 {% block title %}Жаңылыктар | {{ news_detail.cat }} | {{ news_detail.title }}{% endblock %}
 
-{%
+
+
+{% block css %}
+<link href="{% static 'nok_web/slider.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
 
 
 
@@ -65,8 +69,31 @@
 
 
                                                 </div>
-                                                <figure>
+                                                <figure> {% if news_detail.news_slides_img.exists %}
+                                                    <div class="cd-slider">
+                                                        <ul>
+                                                            {% for slider in news_detail.news_slides_img.all %}
+                                                            <li>
+                                                                <div class="image"
+                                                                     style="background-image:url({{ slider.image.url }});"></div>
+                                                                <div class="content">
+                                                                    <div class="backgrount-slider">
+                                                                        <a href="#"><h2 style="color: white; ">
+                                                                            {{slider.title}}</h2></a>
+                                                                        {% if slider.description %}
+                                                                        <p style="color: yellow; font-size:14px;">
+                                                                            {{slider.description}}</p>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            {% endfor %}
+
+                                                        </ul>
+                                                    </div>
+                                                    {% else %}
                                                     <img src="{{ news_detail.img.url }}" alt="News_detail_view">
+                                                    {% endif %}
                                                 </figure>
                                                 <div class="content-block">
                                                     <div class="member-info">
@@ -97,21 +124,9 @@
                                                         <h2>{{ news_detail.title }}</h2>
 
 
-                                                         <div class="cd-slider">
-                                                            <ul>
-                                                                {% for slider in news_detail.news_slides_img.all %}
-                                                              <li>
-                                                                <div class="image" style="background-image:url({{ slider.image.url }});"></div>
-                                                                <div class="content">
-                                                                  <h2>{{ slider.title }}</h2>
-                                                                    <p>{{ slider.description }}</p>
-                                                                  <a href="#">Көрүү</a>
-                                                                </div>
-                                                              </li>
-                                                                {% endfor %}
 
-                                                            </ul>
-                                                          </div> <!--/.cd-slider-->
+
+
 
 
                                                         <p> {{ news_detail.text|linebreaks }} </p>
