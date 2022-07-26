@@ -1,0 +1,63 @@
+{% block css %}
+ <script src="https://kit.fontawesome.com/3336c4353b.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block actions %}
+
+
+
+
+<li>
+    {% if request.user in book.favourite.all %}
+    <a href="{% url 'favourite' slug=book.slug %}" data-toggle="blog-tags" data-placement="top"
+       title="" data-original-title="Заметка">
+        <i class="fa fa-bookmark" aria-hidden="true" style="font-size:18px;color:orange"> {{ book.favourite.all.count }}</i>
+        <!--<i class="fa fa-bookmark" aria-hidden="true"></i>-->
+    </a>
+    {% else %}
+    <a href="{% url 'favourite' slug=book.slug %}" data-toggle="blog-tags" data-placement="top"
+       title="" data-original-title="Заметка">
+        <i class="fa fa-bookmark-o" aria-hidden="true"> {{ book.favourite.all.count }}</i>
+        <!--<i class="fa fa-bookmark" aria-hidden="true"></i>-->
+    </a>
+    {% endif %}
+</li>
+
+<li>
+    {% if request.user in book.like.all %}
+    <a href="{% url 'like' book.slug %}" data-toggle="blog-tags"
+       data-placement="top" title="Like">
+        <i class="fa fa-heart" style="font-size:18px;color:red"> {{ book.like.all.count }}</i>
+        {% else %}
+        <a href="{% url 'like' book.slug %}" data-toggle="blog-tags"
+           data-placement="top" title="Like">
+            <i class="fa fa-heart-o"> {{ book.like.all.count }}</i>
+        </a>
+        {% endif %}
+</li>
+
+<li>
+    <a href="#" target="_blank" data-toggle="blog-tags"
+       data-placement="top" title="Mail"><i
+            class="fa fa-envelope-o" style="font-size:18px;color:blue"></i>
+    </a>
+</li>
+
+<li>
+    {% if book.book_file %}
+    <a href="{{ book.file.book_file.url }}" target="_blank" data-toggle="blog-tags"
+       data-placement="top" title="Окуу">
+        <i class="fa fa-book" aria-hidden="true" style="font-size:18px;color:green"></i>
+    </a>
+    {% endif %}
+</li>
+
+<li>
+    <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top"
+       title="" data-original-title="Бөлүшүү">
+        <i class="fa fa-share-alt"></i>
+    </a>
+</li>
+
+
+{% endblock %}

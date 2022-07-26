@@ -1,0 +1,173 @@
+{% extends 'nok_web/base.html' %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block css %}
+ <script src="https://kit.fontawesome.com/3336c4353b.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block content %}
+        <!-- Start: Page Banner -->
+       <section class="page-banner services-banner">
+    <div class="container">
+        <div class="banner-header">
+            <h2>Электрондук китептер</h2>
+            <span class="underline center"></span>
+            <p class="lead">Нарын облустук С.Орзбаков атындагы маалыматтык китепканасындагы электрондук китептер</p>
+        </div>
+        <div class="breadcrumb">
+            <ul>
+                <li><a href="{% url 'home' %}">Башкы бет</a></li>
+                <li><a href="{% url 'books_grid' %}">Эл-китептер</a></li>
+                <li>{{ title}}</li>
+            </ul>
+        </div>
+    </div>
+</section>
+        <!-- End: Page Banner -->
+
+        <!-- Start: Products Section -->
+        <div id="content" class="site-content">
+            <div id="primary" class="content-area">
+                <main id="main" class="site-main">
+                    <div class="books-full-width">
+                        <div class="container">
+
+
+                            <!-- Start: Search Section -->
+
+                            <br><br>
+                            {% block books_search %}
+
+                            {% include 'nok_web/books/search_books.html' %}
+
+                            {% endblock %}
+                            <br><br><br>
+
+                            <!-- End: Search Section -->
+
+
+                            <div class="filter-options margin-list">
+                                <div class="row">                                            
+                                    <div class="col-md-3 col-sm-3">
+                                        <select name="orderby">
+                                            <option selected="selected">Sort by Title</option>
+                                            <option>Sort by popularity</option>
+                                            <option>Sort by rating</option>
+                                            <option>Sort by newness</option>
+                                            <option>Sort by price</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <select name="orderby">
+                                            <option selected="selected">Sort by Author</option>
+                                            <option>Sort by popularity</option>
+                                            <option>Sort by rating</option>
+                                            <option>Sort by newness</option>
+                                            <option>Sort by price</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 col-sm-3">
+                                        <select name="orderby">
+                                            <option selected="selected">Language</option>
+                                            <option>Sort by popularity</option>
+                                            <option>Sort by rating</option>
+                                            <option>Sort by newness</option>
+                                            <option>Sort by price</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 col-sm-3">
+                                        <select name="orderby">
+                                            <option selected="selected">Publishing Date</option>
+                                            <option>Sort by popularity</option>
+                                            <option>Sort by rating</option>
+                                            <option>Sort by newness</option>
+                                            <option>Sort by price</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 col-sm-12 pull-right">
+                                        <div class="filter-toggle">
+                                            <a href="{% url 'books_grid' %}" class="active"><i class="glyphicon glyphicon-th-large"></i></a>
+                                            <a href="{% url 'books_list' %}"><i class="glyphicon glyphicon-th-list"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="booksmedia-fullwidth">
+                                {% if books %}
+                                <ul>
+                                    {% for book in books %}
+                                    <li>
+                                        <div class="book-list-icon light-green-icon"></div>
+                                        <figure>
+                                             {% if book.img_book %}
+                                            <a href="{{book.get_absolute_url}}"><img src="{{ book.img_book.url }}" alt="Book"></a>
+                                            {% endif %}
+                                            <figcaption>
+                                                <header>
+                                                    <h4><a href="{{ book.get_absolute_url}}">{{book.title}}</a></h4>
+                                                    <p><strong>Автор: </strong>{{book.author.all|join:", "}}</p>
+                                                    <p><strong>ISBN:</strong> {{book.isbn}}</p>
+                                                </header>
+                                                <p>{{ book.summary|linebreaks|truncatewords:10 }}</p>
+
+
+                                                {% block actions %}
+                                                {% include 'nok_web/books/books_actions_optional_links.html' %}
+                                                {% endblock %}
+
+
+                                            </figcaption>
+                                        </figure>                                                
+                                    </li>
+                                    {% endfor %}
+
+                                </ul>
+                                {% endif %}
+                            </div>
+
+
+                            <!--pagination list --------->
+                            {% if page_obj.has_other_pages %}
+                            <nav class="navigation pagination text-center">
+                                <h2 class="screen-reader-text">Пагинация</h2>
+                                <div class="nav-links">
+
+                                    {% if page_obj.has_previous %}
+                                    <a class="prev page-numbers" href="?page={{ page_obj.previous_page_number }}"><i
+                                            class="fa fa-long-arrow-left"></i> Мурунку бет</a>
+                                    {% endif %}
+
+                                    {% for i in paginator.page_range %}{% if page_obj.number == i %}
+                                    <span class="page-numbers current">{{ i }}</span>
+
+                                    {% elif i >= page_obj.number|add:-2 and i <= page_obj.number|add:2 %}
+                                    <a class="page-numbers" href="?page={{ i }}">{{ i }}</a>
+                                    {% endif %}
+
+                                    {% endfor %}
+
+                                    {% if page_obj.has_next %}
+                                    <a class="next page-numbers" href="?page={{ page_obj.next_page_number }}">Кийинки
+                                        бет <i
+                                                class="fa fa-long-arrow-right"></i></a>
+                                    {% endif %}
+
+                                </div>
+                            </nav>
+                        {% endif %}
+                            <br><br>
+
+                        </div>
+
+
+
+
+                    </div>
+                </main>
+            </div>
+
+        </div>
+        <!-- End: Products Section -->
+
+{% endblock %}

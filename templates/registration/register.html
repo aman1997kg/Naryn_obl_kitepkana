@@ -1,0 +1,120 @@
+{% extends 'nok_web/base.html' %}
+{% load static %}
+{% block title %}Катталуу{% endblock %}
+
+{% block content %}
+
+<!-- Start: Page Banner -->
+<section class="page-banner services-banner">
+    <div class="container">
+        <div class="banner-header">
+            <h2>Катталуу</h2>
+            <span class="underline center"></span>
+            <p class="lead">Сайтка катталып сайттын баардык мүмкүнчүлүгү менен пайдаланыңыз</p>
+        </div>
+        <div class="breadcrumb">
+            <ul>
+                <li><a href="index-2.html">Башкы бет</a></li>
+                <li>Катталуу</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- End: Page Banner -->
+<!-- Start: Cart Section -->
+<div id="content" class="site-content">
+    <div id="primary" class="content-area">
+        <main id="main" class="site-main">
+            <div class="signin-main">
+                <div class="container">
+                    <div class="woocommerce">
+                        <div class="woocommerce-login">
+                            <br><br>
+                            <hr>
+                                <div class="col-md-5 col-md-offset-1 border-dark-left">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="company-detail bg-light  margin-left">
+                                                <div class="signin-head">
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    {% if form.errors %}
+                                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                                        <div id="form_errors">
+                                                            {% for key, value in form.errors.items %}
+                                                            <strong>{{ value }}</strong>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <button type="button" class="close" data-dismiss="alert"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    {% endif %}
+
+                                                    {% include 'nok_web/messages.html' %}
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-5 border-dark new-user">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="company-detail new-account bg-light">
+                                                <div class="new-user-head">
+                                                    <h4>Каттоодон өтүү</h4>
+
+                                                    <br>
+
+
+
+
+                                                </div>
+
+                                                <form class="login" method="POST">
+                                                    {% csrf_token %}
+
+
+                                                    {{ form.first_name}}
+                                                    {{ form.last_name}}
+                                                    {{ form.email}}
+                                                    {{ form.isbn2}}
+                                                    {{ form.name2}}
+                                                    {{ form.username}}
+                                                    {{ form.password1}}
+                                                    {{ form.password2}}
+
+
+                                                    <div class="clear"></div>
+                                                    <input type="submit" value="Катталуу" name="signup"
+                                                           class="button btn btn-default">
+                                                    <div class="clear"></div>
+                                                </form>
+                                                <br>
+                                                <hr>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </main>
+    </div>
+</div>
+<!-- End: Cart Section -->
+
+
+{% endblock %}

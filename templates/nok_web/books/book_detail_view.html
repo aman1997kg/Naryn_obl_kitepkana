@@ -1,0 +1,391 @@
+{% extends 'nok_web/base.html' %}
+{% load static %}
+{% load books_tags %}
+
+{% block title %}{{ book_detail.title }}{% endblock %}
+
+{% block content %}
+{% popular_books as popular_book %}
+<!-- Start: Page Banner -->
+<section class="page-banner services-banner">
+    <div class="container">
+        <div class="banner-header">
+            <h2>Китептин мазмуну</h2>
+            <span class="underline center"></span>
+            <p class="lead">Китетин мазмуну менен таанышыңыздар</p>
+        </div>
+        <div class="breadcrumb">
+            <ul>
+                <li><a href="{% url 'home' %}">Башкы бет</a></li>
+                <li><a href="{% url 'books_list' %}">Эл-китептер</a></li>
+                <li><a href="{{ book_detail.book_category.get_absolute_url   }}">{{ book_detail.book_category}}</a></li>
+                <li>{{ book_detail.title }}</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<!-- End: Page Banner -->
+
+<!-- Start: Products Section -->
+<div id="content" class="site-content">
+    <div id="primary" class="content-area">
+        <main id="main" class="site-main">
+            <div class="booksmedia-detail-main">
+                <div class="container">
+                    <div class="row">
+                        <!-- Start: Search Section -->
+                        <section class="search-filters">
+                            <div class="container">
+
+                                {% block books_search %}
+                                {% include 'nok_web/books/search_books.html' %}
+                                {% endblock %}
+
+                            </div>
+                        </section>
+                        <!-- End: Search Section -->
+                    </div>
+
+
+                    <div class="booksmedia-detail-box">
+                        <div class="detailed-box">
+                            <div class="col-xs-12 col-sm-5 col-md-3">
+                                <div class="post-thumbnail">
+                                    <div class="book-list-icon light-green-icon"></div>
+                                    {% if book_detail.img_book %}
+                                    <img src="{{ book_detail.img_book.url }}" alt="Book Image">
+                                    {% endif %}
+                                </div>
+
+
+                            </div>
+                            <div class="col-xs-12 col-sm-7 col-md-6">
+                                <div class="post-center-content">
+                                    <h2>{{ book_detail.title }}</h2>
+                                    <p><strong><a href="{{ book_detail.author.get_absolute_url }}">Автор: </strong>
+                                        {{ book_detail.author.all|join:", " }}</a></p>
+                                    <p><strong>ISBN:</strong> {{ book_detail.isbn }}</p>
+                                    {% if book_detail.get_avg_rating  %}
+                                    <p><strong>Рейтинг:  </strong> {{ book_detail.get_avg_rating  }}  ☆</p>
+                                    {% else %}
+                                    <p><strong>Рейтинг:  </strong> 5.0 ☆</p>
+                                    {% endif %}
+                                    <p><strong>Чыгарылган жылы:</strong> {{ book_detail.edition }}</p>
+                                    <p><strong>Басмакана:</strong> {{ book_detail.publisher }}</p>
+                                    <p><strong>Китептин барагы:</strong> {{ book_detail.length_page }}</p>
+                                    <p><strong>Форматы:</strong> {{ book_detail.format }}</p>
+                                    <p><strong>Тили:</strong> {{ book_detail.language }}</p>
+                                    <p><strong>Жанр :</strong> {{ book_detail.genre.all|join:", " }}</p>
+                                    <p><strong>Тег:</strong> {{ book_detail.tags.all|join:", " }}</p>
+                                    <p><strong>Темалар:</strong> {{ book_detail.topics }}</p>
+
+                                    <div class="actions">
+
+                                        <ul>
+                                            <li>
+                                                {% if request.user in book_detail.favourite.all %}
+                                                <a href="{% url 'favourite' slug=book_detail.slug %}"
+                                                   data-toggle="blog-tags" data-placement="top"
+                                                   title="" data-original-title="Заметка">
+                                                    <i class="fa fa-bookmark" aria-hidden="true" style="font-size:18px;color:orange"> </i> <span>{{ book_detail.favourite.all.count }}</span>
+
+                                                </a>
+                                                {% else %}
+                                                <a href="{% url 'favourite' slug=book_detail.slug %}"
+                                                   data-toggle="blog-tags" data-placement="top"
+                                                   title="" data-original-title="Заметка">
+                                                    <i class="fa fa-bookmark-o" aria-hidden="true">  </i> </i> <span>{{ book_detail.favourite.all.count }}</span>
+                                                </a>
+                                                {% endif %}
+                                            </li>
+
+
+                                            <li>
+                                                {% if request.user in book_detail.like.all %}
+                                                <a href="{% url 'like' book_detail.slug %}"
+                                                   data-toggle="blog-tags" data-placement="top"
+                                                   title="Like" data-original-title="Like">
+                                                    <i class="fa fa-heart" style="font-size:18px;color:red"></i><span> {{ book_detail.like.all.count }}</span>
+                                                </a>
+                                                {% else %}
+                                                <a href="{% url 'like' book_detail.slug %}"
+                                                   data-toggle="blog-tags" data-placement="top"
+                                                   title="Like" data-original-title="Like">
+                                                    <i class="fa fa-heart-o"></i><span> {{ book_detail.like.all.count }}</span>
+                                                </a>
+                                                {% endif %}
+                                            </li>
+
+
+                                            <li>
+                                                <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top"
+                                                   title="" data-original-title="Mail">
+                                                    <i class="fa fa-envelope-o" style="font-size:18px;color:blue"></i>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                {% if book_detail.book_file %}
+                                                <a href="https://docs.google.com/viewer?a&embedded=true&url=https://naryn-obl-kitepkana.herokuapp.com{{ book_detail.book_file.url }}#toolbar=0/view?ths=true&chrome=false" target="_blank"
+                                                   data-toggle="blog-tags" data-placement="top" title=""
+                                                   data-original-title="Онлайн окуу">
+                                                    <i class="fa fa-book" aria-hidden="true" style="font-size:18px;color:green"></i>
+                                                </a>
+                                                {% else %}
+                                                <a href="https://drive.google.com/file/d/{{ book_detail.google_docs_file }}/view#toolbar=0" target="_blank"
+                                                   data-toggle="blog-tags" data-placement="top" title=""
+                                                   data-original-title="Онлайн окуу">
+                                                    <i class="fa fa-book" aria-hidden="true" style="font-size:18px;color:green"></i>
+                                                </a>
+
+
+                                                {% endif %}
+                                            </li><br>
+
+                                            <li>
+                                                <form action="{% url 'add_rating' %}" method="post" name="rating">
+
+                                                    <b>Китепти баалап кетиңиз:  </b>
+                                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+
+
+                                                    <span class="editContent"></span>
+
+                                                    {% csrf_token %}
+                                                    <input type="hidden" value="{{ book_detail.id }}" name="book">
+                                                    <span class="rating">
+                                                        {% for k, v in star_form.fields.star.choices %}
+                                                            <input id="rating{{ v }}" type="radio" name="star"
+                                                                   value="{{ k }}">
+                                                            <label for="rating{{ v }}">{{ k }}</label>
+                                                        {% endfor %}
+                                                    </span>
+
+                                                </form>
+                                            </li>
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 ">
+                                <div class="post-right-content">
+                                    <h4>Азыркы учурда жеткиликтүү</h4>
+                                    <p><strong>Жалпы китептин саны: </strong> {{ book_detail.total_copies }}</p>
+                                    <p><strong>Азыркы учурда: </strong> {{ book_detail.available_copies }}</p>
+                                    <p><strong> Китепти окугандар: </strong> {{ book_detail.books_view }}</p>
+
+                                    <a href="#." class="available-location">Китепти үйгө алуу <i
+                                            class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+
+                                    <a href="#." class="btn btn-dark-gray">Китепти брондоо</a>
+                                    <a href="#." class="btn btn-dark-gray">Китепти сатып алуу</a>
+
+                                    {% if book_detail.book_file %}
+                                    <a href="https://docs.google.com/viewer?a&embedded=true&url=https://naryn-obl-kitepkana.herokuapp.com{{ book_detail.book_file.url }}#toolbar=0/view?ths=true&chrome=false"  class="btn btn-dark-gray" >Онлайн окуу</a>
+                                    {% else %}
+                                    <a href="https://docs.google.com/viewer?srcid={{ book_detail.google_docs_file }}&pid=explorer&efh=false&a=v&chrome=false&embedded=true"  class="btn btn-dark-gray" >Онлайн окуу</a>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <p><strong>Summary:</strong> {{ book_detail.summary }}</p>
+
+
+                         <br><br>
+
+                        {% if book_detail.tags.exists %}
+                        <div class="col-xs-12 col-sm-12 entry-tags">
+                            <strong><i class="fa fa-tags" aria-hidden="true"></i> Теги: </strong>
+
+                            <span>
+                            {% for tags in book_detail.tags.all %}
+                            <a href="{{ tags.get_absolute_url }}"> {{ tags }}</a> ,
+                             {% endfor %}
+                            </span>
+                        </div>
+                        {% endif %}
+
+
+                        <br><br><br><br>
+
+                        {% if book_detail.book_file %}
+                        <iframe src="https://docs.google.com/viewer?a&embedded=true&url=https://naryn-obl-kitepkana.herokuapp.com{{ book_detail.book_file.url }}#toolbar=0/view?ths=true&chrome=false" style="width: 100%; height: 500px; border: none;"></iframe>
+                        {% else %}
+                        <iframe src="https://docs.google.com/viewer?srcid=17ACntMnLHvfeIJZpgU7QnunKk1HteGTN&pid=explorer&efh=false&a=v&chrome=false&embedded=true" style="width: 100%; height: 500px; border: none;"></iframe>
+                        {% endif %}
+
+
+
+                        <br><br>
+
+
+                    </div>
+
+
+                    <div class="comments-area" id="comments">
+                        <div class="comment-bg">
+                            <h4 class="comments-title">Ой пикирлер ({{ book_detail.comments_article.all.count }})</h4>
+                            <span class="underline left"></span>
+                            <ol class="comment-list">
+
+
+                                <li class="comment even thread-even depth-1 parent">
+                                    {% for comment in book_detail.comments_article.all %}
+
+                                    <div class="comment-body">
+
+                                        <div class="comment-author vcard">
+
+                                            {% if comment.author.profile.avatar %}
+                                            <img class="avatar avatar-32 photo avatar-default" src="{{ comment.author.profile.avatar.url  }}" alt="Comment Author">
+                                            {% else %}
+                                            <img class="avatar avatar-32 photo avatar-default" src="{% static 'nok_web/students.png'  %}" alt="Comment Author">
+                                            {% endif %}
+
+                                            <b class="fn">
+                                                <a class="url" rel="external nofollow" href="#">Автор:</b>
+                                            {{comment.author}}</a><br>
+
+                                            {% if comment.status == True %}
+                                            <span><b>Статус:</b><i class="fa fa-check"
+                                                                   style="font-size:18px;color:green"></i></span>
+                                            {% else %}
+
+                                            <span><b>Статус:</b><i class="fa fa-clock-o"
+                                                                   style="font-size:18px;color:orange"></i></span>
+
+                                            {% endif %}
+                                        </div>
+
+                                        <footer class="comment-meta">
+                                            {% if comment.article.author_pub == request.user %}
+                                            <a class="update_status"
+                                               data-url="{% url 'update_comment_status' comment.id 'public' %}"
+                                               href="{% url 'update_comment_status' comment.id 'public' %}">
+                                                <i class="fa fa-check" style="font-size:20px;color:green"></i>
+                                            </a>
+                                            |
+                                            <a class="update_status"
+                                               data-url="{% url 'update_comment_status' comment.id 'delete' %}"
+                                               href="{% url 'update_comment_status' comment.id 'delete' %}">
+                                                <i class="fa fa-trash-o" style="font-size:20px;color:red"></i>
+                                            </a>
+                                            {% endif %}
+                                             <br><br><br><br>
+                                            {% include 'nok_web/books/comments_books.html' %}
+                                        </footer>
+
+                                    </div>
+                                    <br>
+
+                                    {% endfor %}
+                                </li>
+
+                            </ol>
+                        </div>
+
+                        {% if user.is_authenticated %}
+                        <div class="comment-respond" id="respond">
+                            <h4 class="comment-reply-title" id="reply-title">Жеке-пикир жазуу</h4>
+                            {% if messages %}
+                            {% for m in messages %}
+                            <div class="alert alert-success">
+                                {{ m }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            <span class="underline left"></span>
+
+                            <form class="comment-form" id="commentform" method="post" action="">
+                                {% csrf_token %}
+                                <div class="row">
+
+                                    <p class="comment-form-comment">
+                                        {{ form}}
+                                    </p>
+                                </div>
+                                <div class="clearfix"></div>
+                                <p class="form-submit">
+                                    <input value="Жөнөтүү" class="submit" id="submit" name="submit" type="submit">
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                    {% else %}
+                    <hr>
+                    <h4 style="color:red;">Комментарий калтыруу үчүн катталыңыз!</h4>
+                    {% endif %}
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+
+<br>
+<hr>
+
+
+{% include 'nok_web/books/popular_books.html' %}
+
+
+<br>
+
+
+    {% block js %}
+
+    <script>
+                            $('body').on('click', '.update_status', function(event){
+                                event.preventDefault();
+                                if (confirm('Вы уверены')) {
+                                    var url = $(this).attr('data-url')
+                                    var tag_li = $(this).parent()
+                                    console.log(url)
+
+                                    $.ajax({
+                                        url:url,
+                                        type: 'GET',
+                                        success: function(response) {
+                                            tag_li.html(response)
+                                            console.log(response)
+                                        }
+                                    })
+
+                                }
+
+                            })
+
+
+
+
+    </script>
+
+
+    <script>
+      // Add star rating
+const rating = document.querySelector('form[name=rating]');
+
+rating.addEventListener("change", function (e) {
+    // Получаем данные из формы
+    let data = new FormData(this);
+    fetch(`${this.action}`, {
+        method: 'POST',
+        body: data
+    })
+        .then(response => alert("Рейтинг установлен"))
+        .catch(error => alert("Ошибка"))
+});
+
+
+    </script>
+
+
+    {% endblock %}
+{% endblock %}

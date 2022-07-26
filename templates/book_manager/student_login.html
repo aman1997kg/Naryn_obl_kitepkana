@@ -1,0 +1,35 @@
+{% extends 'book_manager/basic.html' %}
+{% load static %}
+{% block title %} Library Management System {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+<br>
+<h1 class="text-center"><u>Онлайн китепканага кирүү</u></h1>
+    <form method="POST"> {% csrf_token %}
+
+    <div class="row mt-4">
+        <div class="form-group col-md-12">
+            <label><i style="font-weight: bold;">Логин</i></label>
+            <input type="text" class="form-control mt-2" name="username" placeholder="Логинди жазыңыз" required>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="form-group col-md-12">
+            <label><i style="font-weight: bold;">Пароль</i></label>
+            <input type="password" class="form-control mt-2" name="password" placeholder="Сыр сөздү териңиз" required>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-outline-primary mt-4">Кирүү</button>
+</div>
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert %}
+    alert("Логин же сыр сөз туура эмес!")
+    document.location = "/student_login"
+    {% endif %}
+</script>
+{% endblock %}
