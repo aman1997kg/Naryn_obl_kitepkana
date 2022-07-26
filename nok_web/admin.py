@@ -18,17 +18,31 @@ admin.site.register(Post_cat, Post_catAdmin)
 
 #------------------News----------------------
 
-class NewsAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('title',), }
-    list_display = ('title', 'cat', 'count_views', 'date_pub', 'active')
-    save_as = True
+
+class Images_NewsAdmin(admin.ModelAdmin):
+    pass
+
+class Images_NewsInline(admin.StackedInline):
+  model = Images_News
+  max_num = 10
+  extra = 0
+
 
 class News_catAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',), }
     save_as = True
 
+class NewsAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('title',), }
+    list_display = ('title', 'cat', 'count_views', 'date_pub', 'active')
+    save_as = True
+    inlines = [Images_NewsInline, ]
+
+
+
 
 admin.site.register(News, NewsAdmin)
+admin.site.register(Images_News, Images_NewsAdmin)
 admin.site.register(News_cat, News_catAdmin)
 
 
@@ -67,6 +81,10 @@ class Tags_NewsAdmin(admin.ModelAdmin):
 
 class RatingAdmin(admin.ModelAdmin):
     list_display = ("star", "book", "ip")
+
+
+
+
 
 
 admin.site.register(Books, BooksAdmin)
