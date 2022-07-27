@@ -81,8 +81,6 @@ def get_news_video(request, pk: int):
 
 
 
-
-
 #---------------------------News------------------------------------
 
 def search_news(request):
@@ -107,42 +105,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from .forms import *
-
-@login_required
-def post(request):
-
-    Image_NewsForm = modelformset_factory(Images_News,
-                                        form=Image_NewsForm, extra=3)
-    #'extra' means the number of photos that you can upload   ^
-    if request.method == 'POST':
-
-        newsForm = NewsForm(request.POST)
-        formset = Image_NewsForm(request.POST, request.FILES,
-                               queryset=Images_News.objects.none())
-
-
-        if NewsForm.is_valid() and formset.is_valid():
-            news_form = NewsForm.save(commit=False)
-            news_form.author_news.user = request.user
-            news_form.save()
-
-            for form in formset.cleaned_data:
-                #this helps to not crash if the user
-                #do not upload all the photos
-                if form:
-                    image = form['image']
-                    photo = Images_News(news=news_form, image=image)
-                    photo.save()
-            messages.success(request,
-                             "Yeeew, check it out on the home page!")
-            return HttpResponseRedirect("/")
-        else:
-            print(newsForm.errors, formset.errors)
-    else:
-        newsForm = NewsForm()
-        formset = Image_NewsFormSet(queryset=Images_News.objects.none())
-    return render(request, 'nok_web/news/news_detail_view.html',
-                  {'newsForm': newsForm, 'formset': formset})
 
 
 class NewsListView(generic.ListView):

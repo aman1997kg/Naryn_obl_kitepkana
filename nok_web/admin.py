@@ -2,25 +2,39 @@ from django.contrib import admin
 from .models import *
 
 
+# ---------------Posts-slider-----------------
+
+class Images_PostsAdmin(admin.ModelAdmin):
+    pass
+
+
+class Images_PostsInline(admin.StackedInline):
+    model = Images_Posts
+    max_num = 10
+    extra = 0
+
 #-----------------post-admin------------------
 class PostAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',), }
     save_as = True
+    inlines = [Images_PostsInline, ]
 
 
 class Post_catAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',), }
     save_as = True
 
+
 admin.site.register(Post, PostAdmin)
+admin.site.register(Images_Posts, Images_PostsAdmin)
 admin.site.register(Post_cat, Post_catAdmin)
 
 
 #------------------News----------------------
 
-
 class Images_NewsAdmin(admin.ModelAdmin):
     pass
+
 
 class Images_NewsInline(admin.StackedInline):
   model = Images_News

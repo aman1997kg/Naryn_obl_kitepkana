@@ -3,6 +3,10 @@
 {% block title %}Иш чаралар > {{ title }} :: {{ post_detail.title }} {% endblock %}
 
 
+{% block css %}
+<link href="{% static 'nok_web/slider.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
 
 
 
@@ -69,11 +73,39 @@
                                                     {% endblock %}
 
                                                 </div>
-                                                {% if post_detail.img %}
-                                                <figure>
-                                                    <img src="{{ post_detail.img.url }}" alt="Post_detail_view" >
+
+
+
+                                                <figure> {% if post_detail.posts_slides_img.exists %}
+                                                    <div class="cd-slider">
+                                                        <ul>
+                                                            {% for slider in post_detail.posts_slides_img.all %}
+                                                            <li>
+                                                                <div class="image"
+                                                                     style="background-image:url({{ slider.image.url }});"></div>
+                                                                <div class="content">
+                                                                    <div class="backgrount-slider">
+                                                                        {% if slider.title %}
+                                                                        <h2 style="color: white; align-text: center;">
+                                                                            {{slider.title}}</h2>
+                                                                        {% endif %}
+                                                                        {% if slider.description %}
+                                                                        <hr><p style="color: yellow; font-size:14px;">
+                                                                            {{slider.description}}</p>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                    {% else %}
+                                                    <img src="{{ post_detail.img.url }}" alt="News_detail_view">
+                                                    {% endif %}
                                                 </figure>
-                                                {% endif %}
+
+
+
                                                 <div class="content-block">
                                                     <div class="member-info">
                                                         <div class="content_meta_category">

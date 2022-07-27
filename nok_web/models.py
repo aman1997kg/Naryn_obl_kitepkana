@@ -58,6 +58,8 @@ class Post(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE, verbose_name='Локация')
     count_views = models.IntegerField(default=0)
     text = models.TextField(blank=True)
+    author_posts = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='автор публикации', blank=True,
+                                    null=True)
     date_pub = models.DateField(auto_now_add=True)
     tags = models.ManyToManyField('Tags_Posts', related_name='tags_posts', verbose_name='Теги постов')
     like = models.ManyToManyField(User, blank=True, related_name='likes_posts')
@@ -73,6 +75,22 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('post_detail_url', kwargs={'slug': self.slug})
+
+
+
+def get_image_filename(instance, filename):
+    title = instance.posts.title
+    slug = slugify(title)
+    return "posts_images/%s-%s" % (slug, filename)
+
+
+class Images_Posts(models.Model):
+    posts = models.ForeignKey(Post, default=None, on_delete=models.CASCADE, related_name='posts_slides_img')
+    title = models.CharField(max_length=100, verbose_name='Слайдга кыскача тема', blank=True, null=True)
+    description = models.CharField(max_length=200, blank=True, null=True)
+    image = models.ImageField(upload_to=get_image_filename,
+                              verbose_name='Image')
+
 
 
 class Comments_posts(models.Model):
